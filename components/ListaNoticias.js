@@ -14,7 +14,7 @@ export default function ListaNoticias() {
       setError(null);
       const { data, error } = await supabase
         .from('noticias')
-        .select('*')
+        .select('*, categorias(nombre)')
         .order('fecha', { ascending: false });
       if (error) {
         setError('Error al cargar noticias');

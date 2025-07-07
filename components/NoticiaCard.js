@@ -39,7 +39,7 @@ export default function NoticiaCard({ noticia }) {
       </Link>
       <div className={styles.noticiaInfo}>
         <span className={styles.noticiaMeta}>
-          {noticia.fecha} | <Link href={`/categoria/${encodeURIComponent(noticia.categoria)}`}><a className={styles.noticiaCategoria}>{noticia.categoria}</a></Link> | <span className={styles.vistas}><span role="img" aria-label="vistas">👁️</span> {vistas} vistas</span>
+          {noticia.fecha} | <Link href={`/categoria/${encodeURIComponent(noticia.categorias?.nombre || noticia.categoria)}`}><a className={styles.noticiaCategoria}>{noticia.categorias?.nombre || noticia.categoria}</a></Link> | <span className={styles.vistas}><span role="img" aria-label="vistas">👁️</span> {vistas} vistas</span>
         </span>
         <h3 className={styles.noticiaTitulo + ' animatedTitle'}>
           <Link href={`/noticia/${noticia.id}`}><a>{noticia.titulo}</a></Link>

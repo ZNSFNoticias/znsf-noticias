@@ -17,10 +17,17 @@ export default function Categoria() {
     if (!categoria) return;
     async function fetchNoticias() {
       setLoading(true);
+      // Buscar la categoría por nombre para obtener su id
+      const { data: cat } = await supabase.from('categorias').select('id').eq('nombre', categoria).single();
+      if (!cat) {
+        setNoticias([]);
+        setLoading(false);
+        return;
+      }
       const { data, error } = await supabase
         .from('noticias')
-        .select('*')
-        .eq('categoria', categoria)
+        .select('*, categorias(nombre)')
+        .eq('categoria_id', cat.id)
         .order('fecha', { ascending: false });
       if (error) setError('Error al cargar noticias');
       else setNoticias(data);

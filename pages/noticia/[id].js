@@ -29,10 +29,10 @@ export default function NoticiaDetalle() {
       setLoading(true);
       // Sumar +1 a vistas usando función RPC
       await supabase.rpc('incrementar_vista', { noticia_id: id });
-      // Obtener noticia actualizada
+      // Obtener noticia actualizada con join a categorias
       const { data, error } = await supabase
         .from('noticias')
-        .select('*')
+        .select('*, categorias(nombre)')
         .eq('id', id)
         .single();
       if (error) setError('No se encontró la noticia');
@@ -136,7 +136,7 @@ export default function NoticiaDetalle() {
           <button className={styles.backBtn} onClick={() => router.back()}>&larr; Volver</button>
           <article className={styles.article}>
             <h1 className={styles.titulo}>{noticia.titulo}</h1>
-            <p className={styles.meta}>{noticia.fecha} | {noticia.categoria} | 👁️ {vistas} vistas</p>
+            <p className={styles.meta}>{noticia.fecha} | {noticia.categorias?.nombre || noticia.categoria} | 👁️ {vistas} vistas</p>
             {/* Portada */}
             {portada && (
               <div className={styles.imgWrapper}>
