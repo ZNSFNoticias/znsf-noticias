@@ -4,7 +4,7 @@ import { supabase } from '../../lib/supabaseClient';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import styles from '../../styles/Noticia.module.css';
-import '../styles/globals.css';
+import '../../styles/globals.css';
 
 export default function NoticiaDetalle() {
   const router = useRouter();

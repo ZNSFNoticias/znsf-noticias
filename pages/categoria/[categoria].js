@@ -4,8 +4,8 @@ import { supabase } from '../../lib/supabaseClient';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import styles from '../../styles/Categoria.module.css';
+import '../../styles/globals.css';
 import NoticiaCard from '../../components/NoticiaCard';
-import '../styles/globals.css';
 
 export default function Categoria() {
   const router = useRouter();
