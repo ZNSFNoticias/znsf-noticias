@@ -80,12 +80,17 @@ export default function NoticiaDetalle() {
     <div className={styles.container}>
       <Header />
       <main className={styles.mainContent}>
+        <button className={styles.backBtn} onClick={() => router.back()}>&larr; Volver</button>
         <article className={styles.article}>
-          <h1>{noticia.titulo}</h1>
+          <h1 className={styles.titulo}>{noticia.titulo}</h1>
           <p className={styles.meta}>{noticia.fecha} | {noticia.categoria}</p>
-          {noticia.imagen && <img src={noticia.imagen} alt={noticia.titulo} className={styles.imgNoticia} />}
+          {noticia.imagen && (
+            <div className={styles.imgWrapper}>
+              <img src={noticia.imagen} alt={noticia.titulo} className={styles.imgNoticia} />
+            </div>
+          )}
           <p className={styles.contenido}>{noticia.contenido}</p>
-          <div style={{margin:'1.5rem 0'}}>
+          <div className={styles.likeSection}>
             <button className={styles.likeBtn} onClick={handleLike}>👍 {likes}</button>
           </div>
           <section className={styles.comentariosSection}>

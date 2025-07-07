@@ -3,14 +3,16 @@ import '../styles/NoticiaCard.module.css';
 
 export default function NoticiaCard({ noticia }) {
   return (
-    <article className="noticiaCard">
+    <article className="noticiaCard glassCard">
       <Link href={`/noticia/${noticia.id}`}>
-        <a>
+        <a className="noticiaImgWrapper">
           <img src={noticia.imagen} alt={noticia.titulo} className="noticiaImg" />
         </a>
       </Link>
       <div className="noticiaInfo">
-        <span className="noticiaMeta">{noticia.fecha} | <Link href={`/categoria/${encodeURIComponent(noticia.categoria)}`}><a className="noticiaCategoria">{noticia.categoria}</a></Link></span>
+        <span className="noticiaMeta">
+          {noticia.fecha} | <Link href={`/categoria/${encodeURIComponent(noticia.categoria)}`}><a className="noticiaCategoria">{noticia.categoria}</a></Link>
+        </span>
         <h3 className="noticiaTitulo">
           <Link href={`/noticia/${noticia.id}`}><a>{noticia.titulo}</a></Link>
         </h3>
