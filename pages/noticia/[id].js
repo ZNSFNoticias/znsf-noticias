@@ -26,11 +26,8 @@ export default function NoticiaDetalle() {
     if (!id) return;
     async function fetchNoticia() {
       setLoading(true);
-      // Sumar +1 a vistas
-      await supabase
-        .from('noticias')
-        .update({ vistas: supabase.rpc('increment', { x: 1 }) })
-        .eq('id', id);
+      // Sumar +1 a vistas usando función RPC
+      await supabase.rpc('incrementar_vista', { noticia_id: id });
       // Obtener noticia actualizada
       const { data, error } = await supabase
         .from('noticias')
@@ -66,12 +63,19 @@ export default function NoticiaDetalle() {
     fetchMedia();
   }, [id]);
 
+  // Control de likes por navegador
+  const hasLiked = typeof window !== 'undefined' && localStorage.getItem(`like_noticia_${id}`) === '1';
+
   const handleLike = async () => {
+    if (hasLiked) return;
     setLikes(likes + 1);
     await supabase
       .from('noticias')
       .update({ likes: likes + 1 })
       .eq('id', id);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`like_noticia_${id}`, '1');
+    }
   };
 
   const handleComentario = async (e) => {
@@ -183,7 +187,7 @@ export default function NoticiaDetalle() {
             )}
             <p className={styles.contenido}>{noticia.contenido}</p>
             <div className={styles.likeSection}>
-              <button className={styles.likeBtn} onClick={handleLike}>👍 {likes}</button>
+              <button className={styles.likeBtn} onClick={handleLike} disabled={hasLiked}>👍 {likes}</button>
             </div>
             <section className={styles.comentariosSection}>
               <h3>Comentarios</h3>
@@ -194,7 +198,7 @@ export default function NoticiaDetalle() {
                   value={autor}
                   onChange={e => setAutor(e.target.value.slice(0, 40))}
                   className={styles.comentarioInput}
-                  maxLength={10}
+                  maxLength={20}
                 />
                 <textarea
                   placeholder="Escribe un comentario..."
