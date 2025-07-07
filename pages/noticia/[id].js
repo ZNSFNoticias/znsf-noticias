@@ -194,7 +194,7 @@ export default function NoticiaDetalle() {
                   value={autor}
                   onChange={e => setAutor(e.target.value.slice(0, 40))}
                   className={styles.comentarioInput}
-                  maxLength={40}
+                  maxLength={10}
                 />
                 <textarea
                   placeholder="Escribe un comentario..."

@@ -152,6 +152,9 @@
   border-radius: 6px;
   padding: 0.7rem 1rem;
   box-shadow: 0 1px 4px #0001;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 .comentarioFecha {
   display: block;
