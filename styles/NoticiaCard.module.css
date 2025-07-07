@@ -20,14 +20,19 @@
 .noticiaImgWrapper {
   min-width: 140px;
   max-width: 180px;
+  width: 160px;
+  height: 110px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 1.5rem;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f3f3f3;
 }
 .noticiaImg {
-  width: 140px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 10px;
   border: 1px solid #eee;

@@ -11,17 +11,19 @@ export default function Home() {
     <div className={styles.container}>
       <Header />
       <main className={styles.mainContent}>
-        <section className={styles.sliderSection}>
-          <NoticiasSlider />
-        </section>
-        <section className={styles.comentariosSection}>
+        <div className={styles.leftCol}>
+          <Sidebar />
           <ComentariosRecientes />
-        </section>
-        <Sidebar />
-        <section className={styles.newsSection}>
-          <h2>Últimas Noticias</h2>
-          <ListaNoticias />
-        </section>
+        </div>
+        <div className={styles.rightCol}>
+          <section className={styles.sliderSection}>
+            <NoticiasSlider />
+          </section>
+          <section className={styles.newsSection}>
+            <h2>Últimas Noticias</h2>
+            <ListaNoticias />
+          </section>
+        </div>
       </main>
       <Footer />
     </div>
