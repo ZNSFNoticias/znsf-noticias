@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import Link from 'next/link';
-import '../styles/NoticiaCard.module.css';
+import styles from '../styles/NoticiaCard.module.css';
 
 export default function NoticiaCard({ noticia }) {
   const [comentCount, setComentCount] = useState(0);
+  const [vistas, setVistas] = useState(noticia.vistas || 0);
 
   useEffect(() => {
     async function fetchCount() {
@@ -14,27 +15,36 @@ export default function NoticiaCard({ noticia }) {
         .eq('noticia_id', noticia.id);
       setComentCount(count || 0);
     }
+    async function fetchVistas() {
+      const { data } = await supabase
+        .from('noticias')
+        .select('vistas')
+        .eq('id', noticia.id)
+        .single();
+      if (data && typeof data.vistas === 'number') setVistas(data.vistas);
+    }
     fetchCount();
+    fetchVistas();
   }, [noticia.id]);
 
   return (
-    <article className="noticiaCard glassCard">
+    <article className={styles.noticiaCard + ' glassCard'}>
       <Link href={`/noticia/${noticia.id}`}>
-        <a className="noticiaImgWrapper">
-          <img src={noticia.imagen} alt={noticia.titulo} className="noticiaImg" />
+        <a className={styles.noticiaImgWrapper} tabIndex={-1}>
+          <img src={noticia.imagen} alt={noticia.titulo} className={styles.noticiaImg} />
         </a>
       </Link>
-      <div className="noticiaInfo">
-        <span className="noticiaMeta">
-          {noticia.fecha} | <Link href={`/categoria/${encodeURIComponent(noticia.categoria)}`}><a className="noticiaCategoria">{noticia.categoria}</a></Link> | 👁️ {noticia.vistas || 0} vistas
+      <div className={styles.noticiaInfo}>
+        <span className={styles.noticiaMeta}>
+          {noticia.fecha} | <Link href={`/categoria/${encodeURIComponent(noticia.categoria)}`}><a className={styles.noticiaCategoria}>{noticia.categoria}</a></Link> | <span className={styles.vistas}><span role="img" aria-label="vistas">👁️</span> {vistas} vistas</span>
         </span>
-        <h3 className="noticiaTitulo">
+        <h3 className={styles.noticiaTitulo + ' animatedTitle'}>
           <Link href={`/noticia/${noticia.id}`}><a>{noticia.titulo}</a></Link>
         </h3>
-        <p className="noticiaResumen">{noticia.resumen || noticia.contenido?.slice(0, 120) + '...'}</p>
-        <div className="noticiaActions">
-          <button className="likeBtn">👍 {noticia.likes || 0}</button>
-          <button className="commentBtn">💬 {comentCount}</button>
+        <p className={styles.noticiaResumen + ' animatedResumen'}>{noticia.resumen || noticia.contenido?.slice(0, 120) + '...'}</p>
+        <div className={styles.noticiaActions}>
+          <button className={styles.likeBtn}>👍 {noticia.likes || 0}</button>
+          <button className={styles.commentBtn}>💬 {comentCount}</button>
         </div>
       </div>
     </article>
