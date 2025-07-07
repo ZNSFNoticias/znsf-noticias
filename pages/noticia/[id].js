@@ -21,6 +21,7 @@ export default function NoticiaDetalle() {
   const [vistas, setVistas] = useState(0);
   const [media, setMedia] = useState([]);
   const [lightboxImg, setLightboxImg] = useState(null);
+  const [hasLiked, setHasLiked] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -64,18 +65,24 @@ export default function NoticiaDetalle() {
   }, [id]);
 
   // Control de likes por navegador
-  const hasLiked = typeof window !== 'undefined' && localStorage.getItem(`like_noticia_${id}`) === '1';
+  useEffect(() => {
+    if (!id) return;
+    if (typeof window !== 'undefined') {
+      setHasLiked(localStorage.getItem(`like_noticia_${id}`) === '1');
+    }
+  }, [id]);
 
   const handleLike = async () => {
     if (hasLiked) return;
     setLikes(likes + 1);
+    setHasLiked(true);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(`like_noticia_${id}`, '1');
+    }
     await supabase
       .from('noticias')
       .update({ likes: likes + 1 })
       .eq('id', id);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`like_noticia_${id}`, '1');
-    }
   };
 
   const handleComentario = async (e) => {
