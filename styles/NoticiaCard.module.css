@@ -1,0 +1,73 @@
+.noticiaCard {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 12px #0001;
+  padding: 1.2rem 1.5rem;
+  transition: box-shadow 0.2s;
+  border: 1px solid #eee;
+}
+.noticiaCard:hover {
+  box-shadow: 0 6px 24px #0002;
+}
+.noticiaImg {
+  width: 140px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  transition: transform 0.2s;
+}
+.noticiaCard:hover .noticiaImg {
+  transform: scale(1.04);
+}
+.noticiaInfo {
+  flex: 1;
+}
+.noticiaMeta {
+  color: #888;
+  font-size: 1em;
+}
+.noticiaCategoria {
+  color: #d60000;
+  font-weight: bold;
+  margin-left: 4px;
+  text-decoration: none;
+}
+.noticiaTitulo {
+  margin: 6px 0 10px 0;
+  font-size: 1.25em;
+  font-weight: 700;
+}
+.noticiaTitulo a {
+  color: #222;
+  text-decoration: none;
+}
+.noticiaTitulo a:hover {
+  color: #d60000;
+}
+.noticiaResumen {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 1.08em;
+}
+.noticiaActions {
+  display: flex;
+  gap: 1.2rem;
+}
+.likeBtn, .commentBtn {
+  background: #f5f5f5;
+  border: none;
+  color: #d60000;
+  font-size: 1.1em;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.likeBtn:hover, .commentBtn:hover {
+  background: #ffeaea;
+}

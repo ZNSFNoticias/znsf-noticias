@@ -1,13 +1,24 @@
+import Link from 'next/link';
+import '../styles/NoticiaCard.module.css';
+
 export default function NoticiaCard({ noticia }) {
   return (
-    <article style={{display:'flex',alignItems:'flex-start',marginBottom:'1.5rem',borderBottom:'1px solid #eee',paddingBottom:'1rem'}}>
-      <img src={noticia.imagen} alt={noticia.titulo} style={{width:'120px',height:'80px',objectFit:'cover',marginRight:'1rem',borderRadius:'4px',border:'1px solid #eee'}} />
-      <div style={{flex:1}}>
-        <span style={{color:'#666',fontSize:'0.95em'}}>{noticia.fecha}</span> | <span style={{color:'#d60000',fontWeight:'bold',fontSize:'0.95em'}}>{noticia.categoria}</span>
-        <h3 style={{margin:'4px 0 6px 0',fontSize:'1.2em'}}>{noticia.titulo}</h3>
-        <p style={{margin:'0 0 8px 0',color:'#222'}}>{noticia.resumen}</p>
-        <a href="#" style={{color:'#d60000',marginRight:'12px',textDecoration:'none',fontSize:'1em'}}>👍 12</a>
-        <a href="#" style={{color:'#d60000',textDecoration:'none',fontSize:'1em'}}>💬 3</a>
+    <article className="noticiaCard">
+      <Link href={`/noticia/${noticia.id}`}>
+        <a>
+          <img src={noticia.imagen} alt={noticia.titulo} className="noticiaImg" />
+        </a>
+      </Link>
+      <div className="noticiaInfo">
+        <span className="noticiaMeta">{noticia.fecha} | <Link href={`/categoria/${encodeURIComponent(noticia.categoria)}`}><a className="noticiaCategoria">{noticia.categoria}</a></Link></span>
+        <h3 className="noticiaTitulo">
+          <Link href={`/noticia/${noticia.id}`}><a>{noticia.titulo}</a></Link>
+        </h3>
+        <p className="noticiaResumen">{noticia.resumen || noticia.contenido?.slice(0, 120) + '...'}</p>
+        <div className="noticiaActions">
+          <button className="likeBtn">👍 {noticia.likes || 0}</button>
+          <button className="commentBtn">💬 {noticia.comentarios?.length || 0}</button>
+        </div>
       </div>
     </article>
   );

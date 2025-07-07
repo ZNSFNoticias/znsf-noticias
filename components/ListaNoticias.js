@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import Link from 'next/link';
 import NoticiaCard from './NoticiaCard';
 
 export default function ListaNoticias() {
@@ -33,7 +34,9 @@ export default function ListaNoticias() {
   return (
     <div>
       {noticias.map(noticia => (
-        <NoticiaCard key={noticia.id} noticia={noticia} />
+        <Link key={noticia.id} href={`/noticia/${noticia.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <a style={{display:'block'}}><NoticiaCard noticia={noticia} /></a>
+        </Link>
       ))}
     </div>
   );

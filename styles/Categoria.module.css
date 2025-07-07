@@ -1,0 +1,28 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+.mainContent {
+  flex: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+.titulo {
+  font-size: 2em;
+  color: #d60000;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.loading {
+  color: #d60000;
+  text-align: center;
+  margin-top: 2rem;
+}
+.error {
+  color: #d60000;
+  text-align: center;
+  margin-top: 2rem;
+}

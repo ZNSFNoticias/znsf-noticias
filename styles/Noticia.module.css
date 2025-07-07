@@ -1,0 +1,119 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+.mainContent {
+  display: flex;
+  flex: 1;
+  padding: 2rem 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.article {
+  background: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px #0002;
+  margin-top: 2rem;
+}
+.imgNoticia {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #0001;
+}
+.meta {
+  color: #888;
+  font-size: 1.1em;
+  margin-bottom: 1.2rem;
+}
+.contenido {
+  font-size: 1.15em;
+  line-height: 1.7;
+  color: #222;
+}
+.loading {
+  color: #d60000;
+  text-align: center;
+  margin-top: 2rem;
+}
+.error {
+  color: #d60000;
+  text-align: center;
+  margin-top: 2rem;
+}
+.likeBtn {
+  background: #d60000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 22px;
+  font-size: 1.1em;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background 0.2s;
+}
+.likeBtn:hover {
+  background: #a80000;
+}
+.comentariosSection {
+  margin-top: 2.5rem;
+  background: #fafafa;
+  border-radius: 10px;
+  padding: 1.5rem 1.2rem;
+  box-shadow: 0 2px 8px #0001;
+}
+.comentarioForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 1.5rem;
+}
+.comentarioInput, .comentarioTextarea {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px 10px;
+  font-size: 1em;
+  width: 100%;
+}
+.comentarioTextarea {
+  min-height: 60px;
+  resize: vertical;
+}
+.comentarioBtn {
+  background: #d60000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 18px;
+  font-size: 1em;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background 0.2s;
+}
+.comentarioBtn:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+.comentariosList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.comentarioItem {
+  margin-bottom: 1.1rem;
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  box-shadow: 0 1px 4px #0001;
+}
+.comentarioFecha {
+  display: block;
+  color: #888;
+  font-size: 0.9em;
+  margin-top: 2px;
+}
