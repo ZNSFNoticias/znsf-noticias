@@ -99,8 +99,18 @@ export default function NoticiaDetalle() {
   // Selección de portada y multimedia
   const portada = media.find(m => m.tipo === 'imagen' && m.orden === 1);
   const imagenes = media.filter(m => m.tipo === 'imagen' && m.orden !== 1);
-  const video = media.find(m => m.tipo === 'video');
-  const audio = media.find(m => m.tipo === 'audio');
+  // Validar y transformar URLs de video/audio si es necesario
+  let video = media.find(m => m.tipo === 'video');
+  let audio = media.find(m => m.tipo === 'audio');
+  // YouTube: transformar a formato embed si es necesario
+  if (video && video.url && !video.url.includes('/embed/')) {
+    const match = video.url.match(/(?:v=|youtu.be\/|youtube.com\/watch\?v=)([\w-]+)/);
+    if (match) video = { ...video, url: `https://www.youtube.com/embed/${match[1]}` };
+  }
+  // SoundCloud: transformar a formato embed si es necesario
+  if (audio && audio.url && !audio.url.includes('player.soundcloud.com')) {
+    audio = { ...audio, url: `https://w.soundcloud.com/player/?url=${encodeURIComponent(audio.url)}` };
+  }
 
   return (
     <div className={styles.container}>
@@ -123,43 +133,41 @@ export default function NoticiaDetalle() {
             )}
             {/* Galería de imágenes */}
             {imagenes.length > 0 && (
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+              <div className={styles.galeria}>
                 {imagenes.map(img => (
                   <img
                     key={img.id}
                     src={img.url}
                     alt={img.descripcion || noticia.titulo}
-                    style={{ width: '180px', borderRadius: '8px', objectFit: 'cover', boxShadow: '0 2px 8px #0001' }}
+                    className={styles.imgGaleria}
                   />
                 ))}
               </div>
             )}
             {/* Video */}
             {video && (
-              <div style={{ margin: '1.5rem 0' }}>
+              <div>
                 <iframe
-                  width="100%"
+                  className={styles.mediaFrame}
                   height="320"
                   src={video.url}
                   title={video.descripcion || 'Video'}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  style={{ borderRadius: '10px', boxShadow: '0 2px 12px #0001' }}
                 ></iframe>
               </div>
             )}
             {/* Audio */}
             {audio && (
-              <div style={{ margin: '1.5rem 0' }}>
+              <div>
                 <iframe
-                  width="100%"
+                  className={styles.mediaFrame}
                   height="120"
                   src={audio.url}
                   title={audio.descripcion || 'Audio'}
                   frameBorder="0"
                   allow="autoplay"
-                  style={{ borderRadius: '10px', boxShadow: '0 2px 12px #0001' }}
                 ></iframe>
               </div>
             )}
