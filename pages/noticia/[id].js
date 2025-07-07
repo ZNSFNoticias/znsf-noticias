@@ -20,6 +20,7 @@ export default function NoticiaDetalle() {
   const [comentLoading, setComentLoading] = useState(false);
   const [vistas, setVistas] = useState(0);
   const [media, setMedia] = useState([]);
+  const [lightboxImg, setLightboxImg] = useState(null);
 
   useEffect(() => {
     if (!id) return;
@@ -128,7 +129,7 @@ export default function NoticiaDetalle() {
             {/* Portada */}
             {portada && (
               <div className={styles.imgWrapper}>
-                <img src={portada.url} alt={noticia.titulo} className={styles.imgNoticia} />
+                <img src={portada.url} alt={noticia.titulo} className={styles.imgNoticia} onClick={() => setLightboxImg(portada.url)} style={{cursor:'zoom-in'}} />
               </div>
             )}
             {/* Galería de imágenes */}
@@ -140,8 +141,17 @@ export default function NoticiaDetalle() {
                     src={img.url}
                     alt={img.descripcion || noticia.titulo}
                     className={styles.imgGaleria}
+                    onClick={() => setLightboxImg(img.url)}
+                    style={{cursor:'zoom-in'}}
                   />
                 ))}
+              </div>
+            )}
+            {/* Lightbox */}
+            {lightboxImg && (
+              <div className={styles.lightbox} onClick={() => setLightboxImg(null)}>
+                <img src={lightboxImg} alt="Imagen ampliada" className={styles.lightboxImg} />
+                <button className={styles.lightboxClose} onClick={() => setLightboxImg(null)}>&times;</button>
               </div>
             )}
             {/* Video */}
@@ -182,15 +192,17 @@ export default function NoticiaDetalle() {
                   type="text"
                   placeholder="Tu nombre (opcional)"
                   value={autor}
-                  onChange={e => setAutor(e.target.value)}
+                  onChange={e => setAutor(e.target.value.slice(0, 40))}
                   className={styles.comentarioInput}
+                  maxLength={40}
                 />
                 <textarea
                   placeholder="Escribe un comentario..."
                   value={comentario}
-                  onChange={e => setComentario(e.target.value)}
+                  onChange={e => setComentario(e.target.value.slice(0, 500))}
                   className={styles.comentarioTextarea}
                   required
+                  maxLength={500}
                 />
                 <button type="submit" className={styles.comentarioBtn} disabled={comentLoading}>
                   {comentLoading ? 'Enviando...' : 'Comentar'}

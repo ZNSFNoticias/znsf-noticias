@@ -21,6 +21,8 @@
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.7s forwards;
+  max-width: 100%;
+  overflow: hidden;
 }
 @keyframes fadeInUp {
   to {
@@ -43,6 +45,10 @@
   margin: 0.3em 0 0.2em 0;
   color: #333;
   font-size: 1.08em;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .fecha {
   color: #888;

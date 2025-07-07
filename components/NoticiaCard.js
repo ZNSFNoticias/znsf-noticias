@@ -25,6 +25,9 @@ export default function NoticiaCard({ noticia }) {
     }
     fetchCount();
     fetchVistas();
+    // Polling para refrescar vistas cada 5s
+    const interval = setInterval(fetchVistas, 5000);
+    return () => clearInterval(interval);
   }, [noticia.id]);
 
   return (

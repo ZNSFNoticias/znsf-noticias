@@ -18,16 +18,16 @@
   transform: translateY(-4px) scale(1.01);
 }
 .noticiaImgWrapper {
-  min-width: 100px;
-  max-width: 120px;
-  width: 110px;
-  height: 80px;
+  min-width: 320px;
+  max-width: 360px;
+  width: 340px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 1.2rem;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 14px;
   background: linear-gradient(135deg, #f3f3f3 60%, #ffeaea 100%);
   box-shadow: 0 2px 8px #d6000022;
   transition: box-shadow 0.2s, background 0.2s;
@@ -36,7 +36,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 14px;
   border: 1px solid #eee;
   transition: transform 0.25s, box-shadow 0.2s, filter 0.2s;
   box-shadow: 0 2px 8px #0001;
