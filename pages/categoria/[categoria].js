@@ -4,7 +4,6 @@ import { supabase } from '../../lib/supabaseClient';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import styles from '../../styles/Categoria.module.css';
-import '../../styles/globals.css';
 import NoticiaCard from '../../components/NoticiaCard';
 
 export default function Categoria() {
