@@ -1,0 +1,33 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+.mainContent {
+  display: flex;
+  flex: 1;
+  padding: 2rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.newsSection {
+  flex: 1;
+}
+.article {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #0001;
+}
+.imgNoticia {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin: 1rem 0;
+}
+.meta {
+  color: #666;
+  font-size: 1em;
+  margin-bottom: 1rem;
+}
