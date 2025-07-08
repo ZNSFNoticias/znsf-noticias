@@ -8,39 +8,42 @@
   display: flex;
   flex-direction: row;
   flex: 1;
-  padding: 2rem 0;
-  max-width: 1200px;
+  padding: 1.2rem 0 0.5rem 0;
+  max-width: 900px;
   margin: 0 auto;
-  gap: 2.5rem;
+  gap: 1.2rem;
 }
 .leftCol {
   flex: 1 1 0;
   max-width: 320px;
   min-width: 220px;
-  margin-right: 1.5rem;
+  margin-right: 1.2rem;
   display: flex;
   flex-direction: column;
-  order: 1;
+  gap: 1.2rem;
+  order: 2;
 }
 .rightCol {
   flex: 3 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  order: 2;
+  order: 1;
 }
 .backBtn {
   background: #fff;
   color: #d60000;
   border: 1px solid #d60000;
   border-radius: 6px;
-  padding: 8px 18px;
+  padding: 10px 18px;
   font-size: 1em;
   font-weight: 600;
   margin-bottom: 1.2rem;
+  margin-top: 0.5rem;
   cursor: pointer;
   align-self: flex-start;
   transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px #0001;
 }
 .backBtn:hover {
   background: #d60000;
@@ -48,85 +51,111 @@
 }
 .article {
   background: #fff;
-  padding: 2.5rem 2rem;
-  border-radius: 14px;
-  box-shadow: 0 4px 24px #0002;
-  margin-top: 0.5rem;
-  margin-bottom: 2rem;
-  position: relative;
+  padding: 1.2rem 0.7rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #0001;
+  margin-bottom: 1.2rem;
 }
 .titulo {
-  font-size: 2.1em;
+  font-size: 1.5em;
   font-weight: 800;
   margin-bottom: 0.5rem;
   color: #222;
+  text-align: center;
+}
+.meta {
+  color: #666;
+  font-size: 1em;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 .imgWrapper {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 1.5rem 0;
+  margin-bottom: 1rem;
 }
 .imgNoticia {
   width: 100%;
-  max-width: 520px;
+  max-width: 400px;
   height: auto;
   border-radius: 10px;
-  box-shadow: 0 2px 12px #0001;
+  box-shadow: 0 2px 8px #0001;
+}
+.galeria {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.imgGaleria {
+  width: 90px;
+  height: 60px;
   object-fit: cover;
-  transition: transform 0.2s;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px #0001;
+  cursor: zoom-in;
 }
-.imgNoticia:hover {
-  transform: scale(1.03);
-}
-.meta {
-  color: #888;
-  font-size: 1.1em;
-  margin-bottom: 1.2rem;
+.mediaFrame {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  margin: 0.7rem auto 1rem auto;
+  display: block;
+  background: #000;
 }
 .contenido {
-  font-size: 1.18em;
-  line-height: 1.7;
   color: #222;
-  margin-bottom: 2rem;
+  font-size: 1.08em;
+  line-height: 1.6;
+  margin: 1.2rem 0;
+  text-align: justify;
 }
 .likeSection {
-  margin-bottom: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.2rem;
 }
 .likeBtn {
+  background: #fff;
+  color: #d60000;
+  border: 1px solid #d60000;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px #0001;
+}
+.likeBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.likeBtn:hover:not(:disabled) {
   background: #d60000;
   color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 22px;
-  font-size: 1.1em;
-  cursor: pointer;
-  margin-bottom: 1rem;
-  transition: background 0.2s;
-  box-shadow: 0 2px 8px #0001;
-}
-.likeBtn:hover {
-  background: #a80000;
 }
 .comentariosSection {
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
   background: #fafafa;
   border-radius: 10px;
-  padding: 1.5rem 1.2rem;
-  box-shadow: 0 2px 8px #0001;
+  padding: 1rem 0.7rem;
+  box-shadow: 0 1px 6px #0001;
 }
 .comentarioForm {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 }
 .comentarioInput, .comentarioTextarea {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 8px 10px;
-  font-size: 1em;
   width: 100%;
+  padding: 0.7em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1em;
 }
 .comentarioTextarea {
   min-height: 60px;
@@ -136,15 +165,15 @@
   background: #d60000;
   color: #fff;
   border: none;
-  border-radius: 5px;
-  padding: 8px 18px;
+  border-radius: 6px;
+  padding: 10px 0;
   font-size: 1em;
+  font-weight: 600;
   cursor: pointer;
-  align-self: flex-end;
   transition: background 0.2s;
 }
 .comentarioBtn:disabled {
-  background: #aaa;
+  opacity: 0.7;
   cursor: not-allowed;
 }
 .comentariosList {
@@ -153,92 +182,51 @@
   margin: 0;
 }
 .comentarioItem {
-  margin-bottom: 1.1rem;
   background: #fff;
   border-radius: 6px;
   padding: 0.7rem 1rem;
   box-shadow: 0 1px 4px #0001;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
+  margin-bottom: 0.7rem;
+  font-size: 1em;
 }
 .comentarioFecha {
-  display: block;
   color: #888;
-  font-size: 0.9em;
-  margin-top: 2px;
+  font-size: 0.92em;
+  margin-left: 0.7em;
 }
-.loading {
-  color: #d60000;
+.loading, .error {
   text-align: center;
-  margin-top: 2rem;
-}
-.error {
   color: #d60000;
-  text-align: center;
-  margin-top: 2rem;
+  margin: 2rem 0;
 }
-/* Galería de imágenes */
-.galeria {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-}
-.imgGaleria {
-  width: 140px;
-  height: 100px;
-  border-radius: 8px;
-  object-fit: cover;
-  box-shadow: 0 2px 8px #0001;
-  transition: transform 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-  background: #f5f5f5;
-}
-.imgGaleria:hover {
-  transform: scale(1.07) rotate(-2deg);
-  box-shadow: 0 4px 16px #0002;
-}
-
-/* Video y audio */
-.mediaFrame {
-  border-radius: 10px;
-  box-shadow: 0 2px 12px #0001;
-  margin: 1.5rem 0;
-  width: 100%;
-  max-width: 600px;
-}
-
-/* Lightbox */
+/* Lightbox y multimedia */
 .lightbox {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.85);
-  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1000;
   animation: fadeInLightbox 0.3s;
 }
 .lightboxImg {
   max-width: 90vw;
-  max-height: 85vh;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px #000a;
-  border: 4px solid #fff;
-  background: #fff;
+  max-height: 80vh;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px #000a;
 }
 .lightboxClose {
   position: absolute;
-  top: 32px;
-  right: 48px;
-  font-size: 3rem;
+  top: 2vw;
+  right: 4vw;
+  font-size: 2.5em;
   color: #fff;
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 10000;
-  transition: color 0.2s;
+  font-weight: bold;
+  z-index: 1001;
 }
 .lightboxClose:hover {
   color: #d60000;
@@ -247,12 +235,10 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
-
-/* Responsive */
 @media (max-width: 900px) {
   .mainContent {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.2rem;
   }
   .leftCol {
     max-width: 100%;
@@ -265,7 +251,10 @@
     min-width: 0;
     order: 1;
   }
-  .galeria {
-    justify-content: center;
+  .article {
+    padding: 1rem 0.3rem;
+  }
+  .imgNoticia, .mediaFrame {
+    max-width: 98vw;
   }
 }
