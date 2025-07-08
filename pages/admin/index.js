@@ -9,6 +9,7 @@ function AdminDashboard() {
         <li><Link href="/admin/noticias"><a>Gestionar Noticias</a></Link></li>
         <li><Link href="/admin/categorias"><a>Gestionar Categorías</a></Link></li>
         <li><Link href="/admin/comentarios"><a>Gestionar Comentarios</a></Link></li>
+        <li><Link href="/admin/panel"><a>panel completo</a></Link></li>
       </ul>
     </div>
   );

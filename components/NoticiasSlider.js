@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { supabase } from '../lib/supabaseClient';
 import styles from '../styles/Slider.module.css';
 
 export default function NoticiasSlider() {
   const [noticias, setNoticias] = useState([]);
   const [active, setActive] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchDestacadas() {
@@ -35,10 +37,20 @@ export default function NoticiasSlider() {
           key={n.id}
           className={styles.slide + (i === active ? ' ' + styles.active : '')}
           style={{ backgroundImage: `url(${n.imagen})` }}
+          onClick={() => router.push(`/noticia/${n.id}`)}
+          role="button"
+          tabIndex={0}
+          onKeyPress={e => { if (e.key === 'Enter') router.push(`/noticia/${n.id}`); }}
         >
           <div className={styles.overlay} />
           <div className={styles.info}>
-            <span className={styles.categoria}>{n.categoria}</span>
+            <span
+              className={styles.categoria}
+              onClick={e => { e.stopPropagation(); router.push(`/categoria/${encodeURIComponent(n.categoria)}`); }}
+              style={{ cursor: 'pointer' }}
+            >
+              {n.categoria}
+            </span>
             <h2 className={styles.titulo}>{n.titulo}</h2>
             {/* Resumen HTML seguro */}
             {n.resumen ? (

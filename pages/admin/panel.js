@@ -268,15 +268,30 @@ function AdminPanel() {
   }
 
   return (
-    <div style={{padding:'2rem',maxWidth:1400,margin:'0 auto',position:'relative'}}>
+    <div style={{
+      padding:'2rem',
+      maxWidth:1400,
+      margin:'0 auto',
+      position:'relative',
+      minHeight:'100vh',
+      background:'#fafbfc',
+      boxSizing:'border-box',
+      overflowX:'auto'
+    }}>
       <button onClick={handleLogout} style={{position:'absolute',top:20,right:20,background:'#eee',padding:'8px 16px',borderRadius:8}}>Cerrar sesión</button>
       <h2>Panel de Administración</h2>
       {msg && <div style={{color:'green',marginBottom:10}}>{msg}</div>}
       {error && <div style={{color:'red',marginBottom:10}}>{error}</div>}
-      <div style={{display:'flex',gap:40,flexWrap:'wrap'}}>
+      <div style={{
+        display:'grid',
+        gridTemplateColumns:'repeat(auto-fit, minmax(340px, 1fr))',
+        gap: '32px',
+        alignItems:'flex-start',
+        width:'100%'
+      }}>
         {/* Formulario de noticia */}
-        <div style={{flex:'1 1 400px',minWidth:350,maxWidth:500}}>
-          <form onSubmit={handleSubmit} style={{background:'#fafafa',padding:20,borderRadius:12,boxShadow:'0 2px 8px #0001'}}>
+        <div style={{background:'#fff',flex:'1 1 400px',minWidth:320,maxWidth:520,padding:20,borderRadius:12,boxShadow:'0 2px 8px #0001',marginBottom:24}}>
+          <form onSubmit={handleSubmit}>
             <input type="hidden" value={form.id} />
             <label>Título:<br/>
               <input name="titulo" value={form.titulo} onChange={handleFormChange} required style={{width:'100%',marginBottom:8}} />
@@ -369,7 +384,7 @@ function AdminPanel() {
           </form>
         </div>
         {/* Lista de noticias */}
-        <div style={{flex:'1 1 400px',minWidth:350,maxWidth:500}}>
+        <div style={{background:'#fff',flex:'1 1 400px',minWidth:320,maxWidth:520,padding:20,borderRadius:12,boxShadow:'0 2px 8px #0001',marginBottom:24}}>
           <h3>Noticias existentes</h3>
           <div style={{maxHeight:400,overflowY:'auto'}}>
             {noticias.map(n => (
@@ -385,7 +400,7 @@ function AdminPanel() {
           </div>
         </div>
         {/* Categorías y comentarios */}
-        <div style={{flex:'1 1 300px',minWidth:260,maxWidth:350}}>
+        <div style={{background:'#fff',flex:'1 1 300px',minWidth:260,maxWidth:350,padding:20,borderRadius:12,boxShadow:'0 2px 8px #0001',marginBottom:24}}>
           <h3>Categorías</h3>
           <form onSubmit={handleCatSubmit} style={{marginBottom:10}}>
             <input value={catForm.nombre} onChange={e=>setCatForm(f=>({...f,nombre:e.target.value}))} placeholder="Nueva categoría" required style={{width:'70%'}} />

@@ -15,7 +15,23 @@ import Link from 'next/link';export default function Header() {
       <Link href="/">
         <a><img src="/logo.png" alt="ZNSF Noticias" style={{maxHeight:'80px',marginBottom:'0.5rem',filter:'drop-shadow(0 2px 8px #0008)',cursor:'pointer'}} /></a>
       </Link>
-      <h1 style={{margin:0, fontWeight:800, fontSize:'2.2em', letterSpacing:'2px', textShadow:'0 2px 8px #000a'}}>ZNSF Noticias</h1>
+      <h1 style={{
+        margin:0,
+        fontWeight:800,
+        fontSize:'clamp(1.2em, 4vw, 2.2em)',
+        letterSpacing:'1.5px',
+        textShadow:'0 2px 8px #000a',
+        maxWidth:'95vw',
+        lineHeight:1.1,
+        wordBreak:'break-word',
+        marginLeft:'auto',
+        marginRight:'auto',
+        padding:'0 1vw',
+        whiteSpace:'pre-line',
+        display:'inline-block'
+      }}>
+        Zona Norte San Fernando Noticias
+      </h1>
       <p style={{margin:0,opacity:0.85, fontWeight:600, fontSize:'1.1em', letterSpacing:'1px'}}>La realidad a un click de distancia</p>
     </header>
   );
