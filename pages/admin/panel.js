@@ -20,10 +20,19 @@ function AdminPanel() {
   // Feedback
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
+  // Estado de login
+  const [logged, setLogged] = useState(false);
+  const [nombre, setNombre] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState(null);
 
   // Cargar datos iniciales
   useEffect(() => {
     fetchAll();
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('admin_user');
+      if (user) setLogged(true);
+    }
   }, []);
   async function fetchAll() {
     await Promise.all([
@@ -179,9 +188,49 @@ function AdminPanel() {
     setMsg('Comentario eliminado');
     fetchComentarios();
   }
+  // --- Login / Logout ---
+  async function handleLogin(e) {
+    e.preventDefault();
+    setLoginError(null);
+    const sha256 = (await import('crypto-js/sha256')).default;
+    const hash = sha256(password).toString();
+    const { data } = await supabase
+      .from('usuarios')
+      .select('*')
+      .eq('nombre', nombre)
+      .eq('password_hash', hash)
+      .single();
+    if (data) {
+      localStorage.setItem('admin_user', JSON.stringify({ id: data.id, nombre: data.nombre }));
+      setLogged(true);
+    } else {
+      setLoginError('Usuario o contraseña incorrectos');
+    }
+  }
+  function handleLogout() {
+    localStorage.removeItem('admin_user');
+    setLogged(false);
+    setNombre('');
+    setPassword('');
+  }
   // --- Render ---
+  if (!logged) {
+    return (
+      <div style={{padding:'2rem',maxWidth:400,margin:'0 auto'}}>
+        <h2>Login Admin</h2>
+        <form onSubmit={handleLogin}>
+          <input value={nombre} onChange={e=>setNombre(e.target.value)} placeholder="Usuario" style={{width:'100%',padding:8,marginBottom:12}} required />
+          <input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Contraseña" style={{width:'100%',padding:8,marginBottom:12}} required />
+          <button type="submit" style={{width:'100%',padding:10,background:'#d60000',color:'#fff',borderRadius:8}}>Ingresar</button>
+          {loginError && <div style={{color:'red',marginTop:10}}>{loginError}</div>}
+        </form>
+      </div>
+    );
+  }
+
   return (
-    <div style={{padding:'2rem',maxWidth:1400,margin:'0 auto'}}>
+    <div style={{padding:'2rem',maxWidth:1400,margin:'0 auto',position:'relative'}}>
+      <button onClick={handleLogout} style={{position:'absolute',top:20,right:20,background:'#eee',padding:'8px 16px',borderRadius:8}}>Cerrar sesión</button>
       <h2>Panel de Administración</h2>
       {msg && <div style={{color:'green',marginBottom:10}}>{msg}</div>}
       {error && <div style={{color:'red',marginBottom:10}}>{error}</div>}

@@ -14,7 +14,7 @@ export default function Footer() {
       boxShadow: '0 -2px 12px #0006',
       backdropFilter: 'blur(4px)'
     }}>
-      <p>© 2025 ZNSF Noticias | Contacto: info@znsfnoticias.com</p>
+      <p>© 2025 ZNSF Noticias | Contacto: znsfnoticias@gmail.com</p>
     </footer>
   );
 }
