@@ -11,7 +11,7 @@ if (typeof window !== 'undefined') {
   // Plugins sólo en cliente
   const Quill = require('react-quill').Quill;
   if (Quill && !Quill.imports['modules/table']) {
-    require('quill-table');
+    require('quill-table-ui');
   }
   if (Quill && !Quill.imports['modules/emoji-toolbar']) {
     require('quill-emoji');
