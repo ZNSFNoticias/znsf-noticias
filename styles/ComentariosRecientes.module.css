@@ -1,4 +1,18 @@
+/* -----------------------------------------------------------------------------
+   ARCHIVO: ComentariosRecientes.module.css
+   -----------------------------------------------------------------------------
+   Estilos para el componente de comentarios recientes.
+   Define el layout, animaciones y estilos de cada comentario.
+   
+   Guía de personalización:
+   - Cambia el fondo y blur en .comentariosBox.
+   - Ajusta la animación fadeInUp para efectos de entrada.
+   - Modifica los estilos de .comentario para cambiar la tarjeta de comentario.
+   - Personaliza colores y fuentes en .autor, .tituloNoticia, .texto y .fecha.
+   ----------------------------------------------------------------------------- */
+
 .comentariosBox {
+  /* Contenedor principal de comentarios recientes */
   background: rgba(255,255,255,0.7);
   border-radius: 14px;
   box-shadow: 0 4px 24px #0002;
@@ -8,11 +22,13 @@
   animation: fadeInUp 0.7s;
 }
 .comentariosList {
+  /* Lista de comentarios */
   list-style: none;
   padding: 0;
   margin: 0;
 }
 .comentario {
+  /* Tarjeta de comentario individual */
   margin-bottom: 1.2rem;
   background: #fff;
   border-radius: 8px;
@@ -31,17 +47,20 @@
   }
 }
 .autor {
+  /* Nombre del autor del comentario */
   color: #d60000;
   font-weight: 700;
   margin-right: 6px;
 }
 .tituloNoticia {
+  /* Título de la noticia comentada */
   color: #222;
   font-weight: 600;
   text-decoration: underline;
   margin-right: 8px;
 }
 .texto {
+  /* Texto del comentario */
   margin: 0.3em 0 0.2em 0;
   color: #333;
   font-size: 1.08em;
@@ -51,6 +70,7 @@
   text-overflow: ellipsis;
 }
 .fecha {
+  /* Fecha del comentario */
   color: #888;
   font-size: 0.92em;
 }

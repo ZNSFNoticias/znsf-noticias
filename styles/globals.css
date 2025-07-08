@@ -1,14 +1,30 @@
+/* -----------------------------------------------------------------------------
+   ARCHIVO: globals.css
+   -----------------------------------------------------------------------------
+   Estilos globales para todo el sitio ZNSF Noticias.
+   Aquí puedes definir fuentes, colores y reglas base para todo el proyecto.
+   
+   Guía de personalización:
+   - Cambia el color de fondo y texto en body.
+   - Modifica la fuente global en font-family.
+   - Ajusta el color de los enlaces y su efecto hover.
+   - Agrega aquí cualquier regla global que quieras aplicar a todo el sitio.
+   ----------------------------------------------------------------------------- */
+
 body {
+  /* Reset de márgenes y paddings, fuente y colores base */
   margin: 0;
   padding: 0;
   font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-  background: #f3f3f3;
-  color: #222;
+  background: #f3f3f3; /* Color de fondo global */
+  color: #222; /* Color de texto global */
 }
 a {
-  color: #d60000;
+  /* Color y estilo de los enlaces */
+  color: #d60000; /* Color principal de enlaces */
   text-decoration: none;
 }
 a:hover {
+  /* Efecto hover para enlaces */
   text-decoration: underline;
 }

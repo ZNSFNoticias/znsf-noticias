@@ -1,10 +1,25 @@
+/* -----------------------------------------------------------------------------
+   ARCHIVO: Home.module.css
+   -----------------------------------------------------------------------------
+   Estilos para la página principal (home) de ZNSF Noticias.
+   Define el layout general, columnas, secciones y estilos de artículos.
+   
+   Guía de personalización:
+   - Cambia el gradiente de fondo en .container.
+   - Ajusta el layout de columnas y el gap en .mainContent.
+   - Modifica los estilos de .article para cambiar la tarjeta de noticia.
+   - Puedes agregar o modificar clases para nuevas secciones.
+   ----------------------------------------------------------------------------- */
+
 .container {
+  /* Contenedor principal, fondo con gradiente */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: linear-gradient(120deg, #f3f3f3 0%, #e9e9ff 100%);
 }
 .mainContent {
+  /* Layout de columnas principales */
   display: flex;
   flex-direction: row;
   flex: 1;
@@ -15,11 +30,13 @@
   width: 100%;
 }
 .leftCol, .rightCol, .sliderSection, .comentariosSection, .newsSection, .article, .comentarioItem {
+  /* Ajustes de corte de palabras y box-sizing */
   word-break: break-word;
   overflow-wrap: anywhere;
   box-sizing: border-box;
 }
 .leftCol {
+  /* Columna izquierda (sidebar) */
   flex: 1 1 0;
   max-width: 320px;
   min-width: 260px;
@@ -29,6 +46,7 @@
   order: 1;
 }
 .rightCol {
+  /* Columna derecha (contenido principal) */
   flex: 3 1 0;
   min-width: 0;
   display: flex;
@@ -37,23 +55,28 @@
   order: 2;
 }
 .sliderSection {
+  /* Sección del slider de noticias */
   width: 100%;
   margin-bottom: 1.5rem;
 }
 .comentariosSection {
+  /* Sección de comentarios recientes */
   width: 100%;
   margin-bottom: 1.5rem;
 }
 .newsSection {
+  /* Sección de lista de noticias */
   width: 100%;
 }
 .article {
+  /* Tarjeta de noticia */
   background: #fff;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px #0001;
 }
 .imgNoticia {
+  /* Imagen principal de la noticia */
   width: 100%;
   max-width: 600px;
   height: auto;

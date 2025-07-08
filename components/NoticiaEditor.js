@@ -1,3 +1,25 @@
+// -----------------------------------------------------------------------------
+// COMPONENTE: NoticiaEditor.js
+// -----------------------------------------------------------------------------
+// Editor de noticias para ZNSF Noticias.
+// Permite crear o editar una noticia, asociar medios (imágenes, videos, audios),
+// y guardar los datos en Supabase.
+//
+// Props:
+// - noticiaId: Si se pasa, edita la noticia existente; si no, crea una nueva.
+//
+// Personalización y guía:
+// - Puedes agregar más campos al formulario según tu modelo de datos.
+// - Para cambiar la lógica de medios, edita las funciones handleAddMedia, handleMediaChange, etc.
+// - El campo 'contenido' acepta HTML básico (puedes integrar un editor visual si lo prefieres).
+// - Para cambiar la validación, edita handleSubmit.
+// - Los estilos inline pueden migrarse a CSS Modules.
+//
+// Referencias:
+// - Para cambiar la estructura de la base de datos, revisa las consultas a supabase.
+// - Para internacionalización, reemplaza los textos fijos por variables o recursos.
+// -----------------------------------------------------------------------------
+
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 
@@ -16,6 +38,8 @@ function normalizarMediaUrl(tipo, url) {
 }
 
 export default function NoticiaEditor({ noticiaId }) {
+  // ----------------------------- ESTADOS PRINCIPALES -----------------------------
+  // Maneja los campos del formulario, medios, feedback y carga de datos
   const [categorias, setCategorias] = useState([]);
   const [titulo, setTitulo] = useState('');
   const [categoriaId, setCategoriaId] = useState('');
@@ -26,6 +50,7 @@ export default function NoticiaEditor({ noticiaId }) {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
+  // Carga categorías y, si corresponde, la noticia a editar
   useEffect(() => {
     async function fetchCategorias() {
       const { data } = await supabase.from('categorias').select('*').order('nombre');
@@ -35,6 +60,7 @@ export default function NoticiaEditor({ noticiaId }) {
     if (noticiaId) fetchNoticia();
   }, [noticiaId]);
 
+  // Carga los datos de la noticia si se está editando
   async function fetchNoticia() {
     const { data } = await supabase.from('noticias').select('*').eq('id', noticiaId).single();
     if (data) {
@@ -49,6 +75,7 @@ export default function NoticiaEditor({ noticiaId }) {
     }
   }
 
+  // Manejo de la galería de medios
   function handleAddMedia() {
     setMedias([...medias, { tipo: 'imagen', url: '', descripcion: '', orden: medias.length + 1 }]);
   }
@@ -68,6 +95,7 @@ export default function NoticiaEditor({ noticiaId }) {
     setMedias(medias.filter((_, idx) => idx !== i));
   }
 
+  // Guardar noticia (crear o editar)
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
@@ -111,29 +139,36 @@ export default function NoticiaEditor({ noticiaId }) {
     setTimeout(()=>setSuccess(false), 2000);
   }
 
+  // Renderizado del formulario de edición/creación
   return (
     <div style={{padding:'2rem',maxWidth:900}}>
       <h2>{noticiaId ? 'Editar Noticia' : 'Nueva Noticia'}</h2>
       <form onSubmit={handleSubmit}>
+        {/* Campo título */}
         <div style={{marginBottom:12}}>
           <input value={titulo} onChange={e=>setTitulo(e.target.value)} placeholder="Título" style={{width:'100%',padding:8}} required />
         </div>
+        {/* Selección de categoría */}
         <div style={{marginBottom:12}}>
           <select value={categoriaId} onChange={e=>setCategoriaId(e.target.value)} required style={{padding:8}}>
             <option value="">Selecciona categoría</option>
             {categorias.map(cat => <option key={cat.id} value={cat.id}>{cat.nombre}</option>)}
           </select>
         </div>
+        {/* Fecha de la noticia */}
         <div style={{marginBottom:12}}>
           <input type="date" value={fecha} onChange={e=>setFecha(e.target.value)} required style={{padding:8}} />
         </div>
+        {/* Resumen opcional */}
         <div style={{marginBottom:12}}>
           <textarea value={resumen} onChange={e=>setResumen(e.target.value)} placeholder="Resumen (opcional)" style={{width:'100%',padding:8,minHeight:40}} />
         </div>
+        {/* Contenido principal (HTML) */}
         <div style={{marginBottom:12}}>
           <textarea value={contenido} onChange={e=>setContenido(e.target.value)} placeholder="Cuerpo de la noticia (puedes usar HTML básico para estilos, links, etc.)" style={{width:'100%',padding:8,minHeight:120}} required />
           <div style={{fontSize:'0.95em',color:'#888'}}>Puedes usar etiquetas HTML como &lt;b&gt;, &lt;i&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;img&gt;, etc.</div>
         </div>
+        {/* Galería de medios (imágenes, videos, audios) */}
         <div style={{marginBottom:18}}>
           <h4>Galería de Medios</h4>
           {medias.map((m, i) => (
@@ -150,6 +185,7 @@ export default function NoticiaEditor({ noticiaId }) {
           ))}
           <button type="button" onClick={handleAddMedia} style={{marginTop:8}}>+ Agregar media</button>
         </div>
+        {/* Botón de guardar y feedback */}
         <button type="submit" style={{background:'#d60000',color:'#fff',padding:'10px 28px',borderRadius:8,fontSize:'1.1em'}}>Guardar</button>
         {error && <div style={{color:'red',marginTop:10}}>{error}</div>}
         {success && <div style={{color:'green',marginTop:10}}>¡Guardado!</div>}

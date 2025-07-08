@@ -1,4 +1,18 @@
+/* -----------------------------------------------------------------------------
+   ARCHIVO: Sidebar.module.css
+   -----------------------------------------------------------------------------
+   Estilos para el componente Sidebar (barra lateral).
+   Personaliza colores, bordes, sombras, animaciones y layout aquí.
+   
+   Guía de personalización:
+   - Cambia el color principal (#d60000) para adaptar la identidad visual.
+   - Ajusta el fondo, transparencia y blur en .sidebar.
+   - Modifica la animación fadeInUp para efectos de entrada.
+   - Puedes agregar más clases para nuevos widgets o secciones.
+   ----------------------------------------------------------------------------- */
+
 .sidebar {
+  /* Fondo blanco semitransparente con blur y sombra */
   background: rgba(255,255,255,0.7);
   border-radius: 18px;
   box-shadow: 0 8px 32px #0002;
@@ -10,7 +24,8 @@
   animation: fadeInUp 0.7s;
 }
 .titulo {
-  color: #d60000;
+  /* Título de sección en la sidebar */
+  color: #d60000; /* Cambia aquí el color principal */
   font-size: 1.2em;
   margin-top: 1.2rem;
   margin-bottom: 0.7rem;
@@ -18,16 +33,19 @@
   letter-spacing: 1px;
 }
 .socialList, .vistasList, .categoriasList {
+  /* Listas de enlaces (redes, más vistas, categorías) */
   list-style: none;
   padding: 0;
   margin-bottom: 1.2rem;
 }
 .socialList li, .vistasList li, .categoriasList li {
+  /* Elementos de lista con efecto al pasar el mouse */
   margin-bottom: 0.5em;
   font-size: 1.05em;
   transition: color 0.2s, transform 0.2s;
 }
 .socialList a, .vistasList a, .categoriasList a {
+  /* Enlaces estilizados, con subrayado sutil */
   color: #222;
   text-decoration: none;
   font-weight: 600;
@@ -35,11 +53,13 @@
   transition: color 0.2s, border 0.2s;
 }
 .socialList a:hover, .vistasList a:hover, .categoriasList a:hover {
+  /* Efecto hover: color rojo y subrayado más grueso */
   color: #d60000;
   border-bottom: 2px solid #d60000;
   transform: translateX(4px) scale(1.04);
 }
 @keyframes fadeInUp {
+  /* Animación de entrada desde abajo */
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: none; }
 }

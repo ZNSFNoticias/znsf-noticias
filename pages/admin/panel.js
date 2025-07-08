@@ -1,5 +1,23 @@
-// Panel de administración principal
-// Permite login, CRUD de noticias, categorías, comentarios y edición avanzada de contenido
+// -----------------------------------------------------------------------------
+// PÁGINA: pages/admin/panel.js
+// -----------------------------------------------------------------------------
+// Panel de administración principal para ZNSF Noticias.
+// Permite login, gestión y edición avanzada de noticias, categorías, comentarios y usuarios.
+//
+// Personalización y guía:
+// - Cambia la lógica de login en handleLogin (hash, campos, validación).
+// - Modifica los formularios de noticias, categorías y comentarios según tus necesidades.
+// - Puedes agregar nuevos campos, validaciones o secciones de administración.
+// - El editor visual usa ReactQuill (puedes cambiar la toolbar en quillModules).
+// - Para agregar nuevos tipos de media, edita la función addMediaRow y el renderizado.
+// - Los estilos inline pueden migrarse a CSS Modules para mayor control visual.
+//
+// Referencias:
+// - Para cambiar la estructura de la base de datos, revisa las consultas a supabase.
+// - Para agregar roles o permisos, modifica withAdminAuth y la lógica de login.
+// - Para internacionalización, reemplaza los textos fijos por variables o recursos.
+// -----------------------------------------------------------------------------
+
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import withAdminAuth from '../../components/withAdminAuth';
@@ -44,33 +62,30 @@ const quillFormats = [
 ];
 
 function AdminPanel() {
-  // Estado para noticias y formularios
+  // ----------------------------- ESTADOS PRINCIPALES -----------------------------
+  // Noticias, formularios, categorías, usuarios, comentarios, feedback, login, editor visual
+  // Puedes agregar más estados según tus necesidades de administración
   const [noticias, setNoticias] = useState([]); // Lista de noticias
   const [noticiaEdit, setNoticiaEdit] = useState(null); // ID de noticia en edición
   const [form, setForm] = useState({
     id: '', titulo: '', categoria: '', categoria_id: '', fecha: '', autor_id: '', editor_id: '', imagen: '', likes: 0, vistas: 0, contenido: ''
   });
   const [medias, setMedias] = useState([]); // Medios asociados a la noticia
-  // Estado para categorías
   const [categorias, setCategorias] = useState([]);
   const [catForm, setCatForm] = useState({ id: '', nombre: '' });
-  // Estado para usuarios
   const [usuarios, setUsuarios] = useState([]);
-  // Estado para comentarios
   const [comentarios, setComentarios] = useState([]);
-  // Feedback y mensajes
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
-  // Estado de login
   const [logged, setLogged] = useState(false);
   const [nombre, setNombre] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(null);
-  // Estado para el editor visual
   const [showPreview, setShowPreview] = useState(false);
   const [modoHtml, setModoHtml] = useState(false);
 
-  // Cargar datos iniciales
+  // ----------------------------- CARGA DE DATOS INICIALES -----------------------------
+  // Al montar el componente, carga todas las entidades necesarias
   useEffect(() => {
     fetchAll();
     if (typeof window !== 'undefined') {
@@ -434,3 +449,9 @@ function AdminPanel() {
 }
 
 export default withAdminAuth(AdminPanel);
+
+// -----------------------------------------------------------------------------
+// El resto del archivo ya cuenta con comentarios explicativos en cada bloque de lógica,
+// formularios, renderizado y funciones CRUD. Si necesitas comentarios adicionales en
+// funciones específicas, indícalo y se agregarán en detalle.
+// -----------------------------------------------------------------------------

@@ -1,10 +1,25 @@
+/* -----------------------------------------------------------------------------
+   ARCHIVO: Noticia.module.css
+   -----------------------------------------------------------------------------
+   Estilos para la página de detalle de noticia.
+   Define el layout, columnas, botones y estilos de artículos y comentarios.
+   
+   Guía de personalización:
+   - Cambia el color de fondo y layout en .container y .mainContent.
+   - Ajusta el botón de volver (.backBtn) para adaptarlo a tu identidad visual.
+   - Modifica los estilos de .article para cambiar la tarjeta de noticia.
+   - Puedes agregar o modificar clases para nuevas secciones o widgets.
+   ----------------------------------------------------------------------------- */
+
 .container {
+  /* Contenedor principal, fondo blanco */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: #fff;
 }
 .mainContent {
+  /* Layout de columnas principales */
   display: flex;
   flex-direction: row;
   flex: 1;
@@ -15,11 +30,13 @@
   width: 100%;
 }
 .leftCol, .rightCol, .article, .comentarioItem {
+  /* Ajustes de corte de palabras y box-sizing */
   word-break: break-word;
   overflow-wrap: anywhere;
   box-sizing: border-box;
 }
 .leftCol {
+  /* Columna izquierda (sidebar) */
   flex: 1 1 0;
   max-width: 320px;
   min-width: 220px;
@@ -30,6 +47,7 @@
   order: 2;
 }
 .rightCol {
+  /* Columna derecha (contenido principal) */
   flex: 3 1 0;
   min-width: 0;
   display: flex;
@@ -37,6 +55,7 @@
   order: 1;
 }
 .backBtn {
+  /* Botón de volver */
   background: #fff;
   color: #d60000;
   border: 1px solid #d60000;
@@ -52,10 +71,12 @@
   box-shadow: 0 2px 8px #0001;
 }
 .backBtn:hover {
+  /* Efecto hover para el botón de volver */
   background: #d60000;
   color: #fff;
 }
 .article {
+  /* Tarjeta de noticia */
   background: #fff;
   padding: 1.2rem 0.7rem;
   border-radius: 12px;

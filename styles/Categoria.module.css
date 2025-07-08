@@ -1,27 +1,44 @@
+/* -----------------------------------------------------------------------------
+   ARCHIVO: Categoria.module.css
+   -----------------------------------------------------------------------------
+   Estilos para la página de categoría de noticias.
+   Define el layout, títulos, mensajes de carga y error.
+   
+   Guía de personalización:
+   - Cambia el color de fondo y layout en .container y .mainContent.
+   - Ajusta el color y tamaño de los títulos en .titulo.
+   - Modifica los estilos de mensajes de carga y error.
+   ----------------------------------------------------------------------------- */
+
 .container {
+  /* Contenedor principal, fondo blanco */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: #fff;
 }
 .mainContent {
+  /* Contenido principal centrado */
   flex: 1;
   max-width: 900px;
   margin: 0 auto;
   padding: 2rem 0;
 }
 .titulo {
+  /* Título de la categoría */
   font-size: 2em;
   color: #d60000;
   margin-bottom: 2rem;
   text-align: center;
 }
 .loading {
+  /* Mensaje de carga */
   color: #d60000;
   text-align: center;
   margin-top: 2rem;
 }
 .error {
+  /* Mensaje de error */
   color: #d60000;
   text-align: center;
   margin-top: 2rem;
