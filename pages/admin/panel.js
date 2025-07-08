@@ -38,16 +38,28 @@ if (typeof window !== 'undefined') {
 
 // Configuración de la toolbar y módulos del editor visual
 const quillModules = {
-  toolbar: [
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
-    [{ 'color': [] }, { 'background': [] }],
-    [{ 'font': [] }],
-    [{ 'align': [] }],
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
-    ['link', 'image', 'video', 'formula', 'emoji'],
-    ['clean']
-  ],
+  toolbar: {
+    container: [
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
+      ['link', 'image', 'video', 'formula', 'emoji'],
+      ['clean']
+    ],
+    handlers: {
+      image: function () {
+        const quill = this.quill;
+        const url = prompt('Pega la URL de la imagen:');
+        if (url) {
+          const range = quill.getSelection();
+          quill.insertEmbed(range ? range.index : 0, 'image', url, 'user');
+        }
+      }
+    }
+  },
   'emoji-toolbar': true,
   'emoji-textarea': false,
   'emoji-shortname': true
@@ -83,6 +95,9 @@ function AdminPanel() {
   const [loginError, setLoginError] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
   const [modoHtml, setModoHtml] = useState(false);
+
+  // Referencia para el editor visual
+  const quillRef = React.useRef(null);
 
   // ----------------------------- CARGA DE DATOS INICIALES -----------------------------
   // Al montar el componente, carga todas las entidades necesarias
@@ -272,6 +287,41 @@ function AdminPanel() {
     setNombre('');
     setPassword('');
   }
+  // --- Efecto para agregar menú de tamaño al hacer click en imagen
+  useEffect(() => {
+    if (!quillRef.current) return;
+    const quill = quillRef.current.getEditor();
+    function handleImgClick(e) {
+      if (e.target && e.target.tagName === 'IMG') {
+        e.preventDefault();
+        // Crear menú simple
+        const menu = document.createElement('div');
+        menu.style.position = 'fixed';
+        menu.style.top = e.clientY + 'px';
+        menu.style.left = e.clientX + 'px';
+        menu.style.background = '#fff';
+        menu.style.border = '1px solid #ccc';
+        menu.style.padding = '6px 10px';
+        menu.style.zIndex = 9999;
+        menu.style.boxShadow = '0 2px 8px #0002';
+        menu.style.borderRadius = '6px';
+        menu.innerHTML = '<b>Tamaño imagen:</b><br>' +
+          [100,75,50,25].map(p=>`<button data-size="${p}" style="margin:2px 4px;">${p}%</button>`).join('');
+        document.body.appendChild(menu);
+        function removeMenu() { menu.remove(); document.removeEventListener('mousedown', removeMenu); }
+        setTimeout(()=>document.addEventListener('mousedown', removeMenu), 100);
+        menu.querySelectorAll('button').forEach(btn => {
+          btn.onclick = ev => {
+            ev.stopPropagation();
+            e.target.style.width = btn.dataset.size + '%';
+            removeMenu();
+          };
+        });
+      }
+    }
+    quill.root.addEventListener('click', handleImgClick);
+    return () => quill.root.removeEventListener('click', handleImgClick);
+  }, [modoHtml]);
   // --- Render ---
   if (!logged) {
     return (
@@ -365,6 +415,7 @@ function AdminPanel() {
               />
             ) : (
               <ReactQuill
+                ref={quillRef}
                 value={form.contenido}
                 onChange={val => setForm(f => ({ ...f, contenido: val }))}
                 theme="snow"
