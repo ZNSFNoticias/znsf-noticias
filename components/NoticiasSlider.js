@@ -3,11 +3,14 @@ import { useRouter } from 'next/router';
 import { supabase } from '../lib/supabaseClient';
 import styles from '../styles/Slider.module.css';
 
+// Slider de noticias destacadas en la portada
+// Muestra hasta 5 noticias, con imagen, categoría, título y resumen
 export default function NoticiasSlider() {
-  const [noticias, setNoticias] = useState([]);
-  const [active, setActive] = useState(0);
+  const [noticias, setNoticias] = useState([]); // Lista de noticias destacadas
+  const [active, setActive] = useState(0); // Índice del slide activo
   const router = useRouter();
 
+  // Cargar noticias destacadas al montar el componente
   useEffect(() => {
     async function fetchDestacadas() {
       const { data } = await supabase
@@ -20,6 +23,7 @@ export default function NoticiasSlider() {
     fetchDestacadas();
   }, []);
 
+  // Cambia de slide automáticamente cada 4 segundos
   useEffect(() => {
     if (noticias.length < 2) return;
     const interval = setInterval(() => {
@@ -32,18 +36,20 @@ export default function NoticiasSlider() {
 
   return (
     <div className={styles.slider}>
+      {/* Renderiza cada noticia como un slide */}
       {noticias.map((n, i) => (
         <div
           key={n.id}
           className={styles.slide + (i === active ? ' ' + styles.active : '')}
           style={{ backgroundImage: `url(${n.imagen})` }}
-          onClick={() => router.push(`/noticia/${n.id}`)}
+          onClick={() => router.push(`/noticia/${n.id}`)} // Click en el slide lleva a la noticia
           role="button"
           tabIndex={0}
           onKeyPress={e => { if (e.key === 'Enter') router.push(`/noticia/${n.id}`); }}
         >
           <div className={styles.overlay} />
           <div className={styles.info}>
+            {/* Click en la categoría lleva a la página de esa categoría */}
             <span
               className={styles.categoria}
               onClick={e => { e.stopPropagation(); router.push(`/categoria/${encodeURIComponent(n.categoria)}`); }}
@@ -51,6 +57,7 @@ export default function NoticiasSlider() {
             >
               {n.categoria}
             </span>
+            {/* Título de la noticia */}
             <h2 className={styles.titulo}>{n.titulo}</h2>
             {/* Resumen HTML seguro */}
             {n.resumen ? (
@@ -67,6 +74,7 @@ export default function NoticiasSlider() {
           </div>
         </div>
       ))}
+      {/* Dots de navegación para cambiar de slide manualmente */}
       <div className={styles.dots}>
         {noticias.map((_, i) => (
           <span

@@ -1,20 +1,24 @@
+// Panel de administración principal
+// Permite login, CRUD de noticias, categorías, comentarios y edición avanzada de contenido
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import withAdminAuth from '../../components/withAdminAuth';
 import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
-import 'quill-emoji/dist/quill-emoji.css';
+import 'react-quill/dist/quill.snow.css'; // Estilos del editor visual
+import 'quill-emoji/dist/quill-emoji.css'; // Estilos de emojis para el editor
 
+// Carga ReactQuill solo en cliente (Next.js SSR safe)
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
+// Registro de plugins de emoji solo en cliente
 if (typeof window !== 'undefined') {
-  // Plugins sólo en cliente
   const Quill = require('react-quill').Quill;
   if (Quill && !Quill.imports['modules/emoji-toolbar']) {
     require('quill-emoji');
   }
 }
 
+// Configuración de la toolbar y módulos del editor visual
 const quillModules = {
   toolbar: [
     [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -31,6 +35,7 @@ const quillModules = {
   'emoji-shortname': true
 };
 
+// Formatos permitidos en el editor visual
 const quillFormats = [
   'header', 'font', 'size', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
   'color', 'background', 'align',
@@ -39,13 +44,13 @@ const quillFormats = [
 ];
 
 function AdminPanel() {
-  // Estado para noticias
-  const [noticias, setNoticias] = useState([]);
-  const [noticiaEdit, setNoticiaEdit] = useState(null); // noticia en edición
+  // Estado para noticias y formularios
+  const [noticias, setNoticias] = useState([]); // Lista de noticias
+  const [noticiaEdit, setNoticiaEdit] = useState(null); // ID de noticia en edición
   const [form, setForm] = useState({
     id: '', titulo: '', categoria: '', categoria_id: '', fecha: '', autor_id: '', editor_id: '', imagen: '', likes: 0, vistas: 0, contenido: ''
   });
-  const [medias, setMedias] = useState([]); // lista de medias del form
+  const [medias, setMedias] = useState([]); // Medios asociados a la noticia
   // Estado para categorías
   const [categorias, setCategorias] = useState([]);
   const [catForm, setCatForm] = useState({ id: '', nombre: '' });
@@ -53,7 +58,7 @@ function AdminPanel() {
   const [usuarios, setUsuarios] = useState([]);
   // Estado para comentarios
   const [comentarios, setComentarios] = useState([]);
-  // Feedback
+  // Feedback y mensajes
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
   // Estado de login
