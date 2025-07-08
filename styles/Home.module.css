@@ -12,6 +12,12 @@
   max-width: 1200px;
   margin: 0 auto;
   gap: 2.5rem;
+  width: 100%;
+}
+.leftCol, .rightCol, .sliderSection, .comentariosSection, .newsSection, .article, .comentarioItem {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  box-sizing: border-box;
 }
 .leftCol {
   flex: 1 1 0;
@@ -52,6 +58,8 @@
   max-width: 600px;
   height: auto;
   margin: 1rem 0;
+  border-radius: 8px;
+  object-fit: cover;
 }
 .meta {
   color: #666;
@@ -62,6 +70,7 @@
   .mainContent {
     flex-direction: column;
     gap: 1.5rem;
+    padding: 1rem 0.2rem;
   }
   .leftCol {
     max-width: 100%;
@@ -72,5 +81,11 @@
     max-width: 100%;
     min-width: 0;
     order: 1;
+  }
+  .article, .comentarioItem {
+    padding: 1rem 0.3rem;
+  }
+  .imgNoticia {
+    max-width: 98vw;
   }
 }

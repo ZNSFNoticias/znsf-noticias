@@ -12,6 +12,12 @@
   max-width: 900px;
   margin: 0 auto;
   gap: 1.2rem;
+  width: 100%;
+}
+.leftCol, .rightCol, .article, .comentarioItem {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  box-sizing: border-box;
 }
 .leftCol {
   flex: 1 1 0;
@@ -81,6 +87,7 @@
   height: auto;
   border-radius: 10px;
   box-shadow: 0 2px 8px #0001;
+  object-fit: cover;
 }
 .galeria {
   display: flex;
@@ -156,6 +163,9 @@
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 1em;
+  max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .comentarioTextarea {
   min-height: 60px;
@@ -188,6 +198,9 @@
   box-shadow: 0 1px 4px #0001;
   margin-bottom: 0.7rem;
   font-size: 1em;
+  max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .comentarioFecha {
   color: #888;
@@ -239,6 +252,7 @@
   .mainContent {
     flex-direction: column;
     gap: 1.2rem;
+    padding: 1rem 0.2rem;
   }
   .leftCol {
     max-width: 100%;
@@ -251,7 +265,7 @@
     min-width: 0;
     order: 1;
   }
-  .article {
+  .article, .comentarioItem {
     padding: 1rem 0.3rem;
   }
   .imgNoticia, .mediaFrame {
