@@ -40,7 +40,18 @@ export default function NoticiasSlider() {
           <div className={styles.info}>
             <span className={styles.categoria}>{n.categoria}</span>
             <h2 className={styles.titulo}>{n.titulo}</h2>
-            <p className={styles.resumen}>{n.resumen || n.contenido?.slice(0, 120) + '...'}</p>
+            {/* Resumen HTML seguro */}
+            {n.resumen ? (
+              <div
+                className={styles.resumen}
+                dangerouslySetInnerHTML={{ __html: n.resumen }}
+              />
+            ) : (
+              <div
+                className={styles.resumen}
+                dangerouslySetInnerHTML={{ __html: (n.contenido || '').slice(0, 120) + '...'}}
+              />
+            )}
           </div>
         </div>
       ))}

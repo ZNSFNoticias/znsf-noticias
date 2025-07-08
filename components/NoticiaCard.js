@@ -44,7 +44,18 @@ export default function NoticiaCard({ noticia }) {
         <h3 className={styles.noticiaTitulo + ' animatedTitle'}>
           <Link href={`/noticia/${noticia.id}`}><a>{noticia.titulo}</a></Link>
         </h3>
-        <p className={styles.noticiaResumen + ' animatedResumen'}>{noticia.resumen || noticia.contenido?.slice(0, 120) + '...'}</p>
+        {/* Resumen HTML seguro */}
+        {noticia.resumen ? (
+          <div
+            className={styles.noticiaResumen + ' animatedResumen'}
+            dangerouslySetInnerHTML={{ __html: noticia.resumen }}
+          />
+        ) : (
+          <div
+            className={styles.noticiaResumen + ' animatedResumen'}
+            dangerouslySetInnerHTML={{ __html: (noticia.contenido || '').slice(0, 120) + '...'}}
+          />
+        )}
         <div className={styles.noticiaActions}>
           <button className={styles.likeBtn}>👍 {noticia.likes || 0}</button>
           <button className={styles.commentBtn}>💬 {comentCount}</button>
