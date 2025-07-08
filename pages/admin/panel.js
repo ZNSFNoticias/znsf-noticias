@@ -1,6 +1,47 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import withAdminAuth from '../../components/withAdminAuth';
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
+import 'quill-emoji/dist/quill-emoji.css';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+
+if (typeof window !== 'undefined') {
+  // Plugins sólo en cliente
+  const Quill = require('react-quill').Quill;
+  if (Quill && !Quill.imports['modules/table']) {
+    require('quill-table');
+  }
+  if (Quill && !Quill.imports['modules/emoji-toolbar']) {
+    require('quill-emoji');
+  }
+}
+
+const quillModules = {
+  toolbar: [
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
+    [{ 'color': [] }, { 'background': [] }],
+    [{ 'font': [] }],
+    [{ 'align': [] }],
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
+    ['link', 'image', 'video', 'formula', 'emoji'],
+    ['clean'],
+    ['table']
+  ],
+  table: true,
+  'emoji-toolbar': true,
+  'emoji-textarea': false,
+  'emoji-shortname': true
+};
+
+const quillFormats = [
+  'header', 'font', 'size', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
+  'color', 'background', 'align',
+  'list', 'bullet', 'indent',
+  'link', 'image', 'video', 'formula', 'emoji', 'table'
+];
 
 function AdminPanel() {
   // Estado para noticias
@@ -25,6 +66,9 @@ function AdminPanel() {
   const [nombre, setNombre] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(null);
+  // Estado para el editor visual
+  const [showPreview, setShowPreview] = useState(false);
+  const [modoHtml, setModoHtml] = useState(false);
 
   // Cargar datos iniciales
   useEffect(() => {
@@ -275,9 +319,37 @@ function AdminPanel() {
             <label>Vistas:<br/>
               <input name="vistas" type="number" value={form.vistas} onChange={handleFormChange} style={{width:'100%',marginBottom:8}} />
             </label><br/>
-            <label>Contenido:<br/>
-              <textarea name="contenido" value={form.contenido} onChange={handleFormChange} rows={6} required style={{width:'100%',marginBottom:8}} />
-            </label><br/>
+            <label>Contenido de la noticia:<br/>
+              <button type="button" onClick={()=>setModoHtml(m=>!m)} style={{margin:'8px 0'}}>
+                {modoHtml ? 'Usar editor visual' : 'Editar HTML manualmente'}
+              </button>
+              {modoHtml ? (
+                <textarea
+                  value={form.contenido}
+                  onChange={e => setForm(f => ({ ...f, contenido: e.target.value }))}
+                  rows={12}
+                  style={{width:'100%',fontFamily:'monospace',marginBottom:8}}
+                  placeholder="Pega aquí HTML avanzado si lo deseas (carruseles, galerías, scripts, etc.)"
+                />
+              ) : (
+                <ReactQuill
+                  value={form.contenido}
+                  onChange={val => setForm(f => ({ ...f, contenido: val }))}
+                  theme="snow"
+                  style={{height:250,marginBottom:8}}
+                  modules={quillModules}
+                  formats={quillFormats}
+                />
+              )}
+            </label>
+            <button type="button" onClick={()=>setShowPreview(p=>!p)} style={{marginBottom:8}}>
+              {showPreview ? 'Ocultar vista previa' : 'Ver vista previa'}
+            </button>
+            {showPreview && (
+              <div style={{border:'1px solid #ddd',borderRadius:8,padding:10,marginBottom:8,background:'#fff'}}>
+                <div dangerouslySetInnerHTML={{ __html: form.contenido }} />
+              </div>
+            )}
             <h4>Medias (imágenes, audios, videos)</h4>
             <div>
               {medias.map((m, idx) => (
