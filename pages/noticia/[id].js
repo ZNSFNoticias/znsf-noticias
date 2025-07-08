@@ -192,7 +192,11 @@ export default function NoticiaDetalle() {
                 ></iframe>
               </div>
             )}
-            <p className={styles.contenido}>{noticia.contenido}</p>
+            {/* Cuerpo de la noticia como HTML seguro */}
+            <div
+              className={styles.contenido}
+              dangerouslySetInnerHTML={{ __html: noticia.contenido }}
+            />
             <div className={styles.likeSection}>
               <button className={styles.likeBtn} onClick={handleLike} disabled={hasLiked}>👍 {likes}</button>
             </div>
