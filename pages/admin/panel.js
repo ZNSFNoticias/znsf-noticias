@@ -350,28 +350,29 @@ function AdminPanel() {
               <input name="vistas" type="number" value={form.vistas} onChange={handleFormChange} style={{width:'100%',marginBottom:8}} />
             </label><br/>
             <label>Contenido de la noticia:<br/>
-              <button type="button" onClick={()=>setModoHtml(m=>!m)} style={{margin:'8px 0'}}>
-                {modoHtml ? 'Usar editor visual' : 'Editar HTML manualmente'}
-              </button>
-              {modoHtml ? (
-                <textarea
-                  value={form.contenido}
-                  onChange={e => setForm(f => ({ ...f, contenido: e.target.value }))}
-                  rows={12}
-                  style={{width:'100%',fontFamily:'monospace',marginBottom:8}}
-                  placeholder="Pega aquí HTML avanzado si lo deseas (carruseles, galerías, scripts, etc.)"
-                />
-              ) : (
-                <ReactQuill
-                  value={form.contenido}
-                  onChange={val => setForm(f => ({ ...f, contenido: val }))}
-                  theme="snow"
-                  style={{height:250,marginBottom:8}}
-                  modules={quillModules}
-                  formats={quillFormats}
-                />
-              )}
+            {/* El botón de alternar modo se mueve fuera del label para evitar bugs de foco/click */}
             </label>
+            <button type="button" onClick={()=>setModoHtml(m=>!m)} style={{margin:'8px 0'}}>
+              {modoHtml ? 'Usar editor visual' : 'Editar HTML manualmente'}
+            </button>
+            {modoHtml ? (
+              <textarea
+                value={form.contenido}
+                onChange={e => setForm(f => ({ ...f, contenido: e.target.value }))}
+                rows={12}
+                style={{width:'100%',fontFamily:'monospace',marginBottom:8}}
+                placeholder="Pega aquí HTML avanzado si lo deseas (carruseles, galerías, scripts, etc.)"
+              />
+            ) : (
+              <ReactQuill
+                value={form.contenido}
+                onChange={val => setForm(f => ({ ...f, contenido: val }))}
+                theme="snow"
+                style={{height:250,marginBottom:8}}
+                modules={quillModules}
+                formats={quillFormats}
+              />
+            )}
             <button type="button" onClick={()=>setShowPreview(p=>!p)} style={{marginBottom:8}}>
               {showPreview ? 'Ocultar vista previa' : 'Ver vista previa'}
             </button>
