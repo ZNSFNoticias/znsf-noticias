@@ -10,9 +10,6 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 if (typeof window !== 'undefined') {
   // Plugins sólo en cliente
   const Quill = require('react-quill').Quill;
-  if (Quill && !Quill.imports['modules/tableUI']) {
-    require('quill-table-ui');
-  }
   if (Quill && !Quill.imports['modules/emoji-toolbar']) {
     require('quill-emoji');
   }
@@ -27,10 +24,8 @@ const quillModules = {
     [{ 'align': [] }],
     [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
     ['link', 'image', 'video', 'formula', 'emoji'],
-    ['clean'],
-    ['tableUI']
+    ['clean']
   ],
-  tableUI: true,
   'emoji-toolbar': true,
   'emoji-textarea': false,
   'emoji-shortname': true
@@ -40,7 +35,7 @@ const quillFormats = [
   'header', 'font', 'size', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block',
   'color', 'background', 'align',
   'list', 'bullet', 'indent',
-  'link', 'image', 'video', 'formula', 'emoji', 'tableUI'
+  'link', 'image', 'video', 'formula', 'emoji'
 ];
 
 function AdminPanel() {
