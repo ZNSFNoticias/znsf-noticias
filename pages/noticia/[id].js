@@ -133,7 +133,7 @@ export default function NoticiaDetalle() {
           <ComentariosRecientes />
         </div>
         <div className={styles.rightCol}>
-          <button className={styles.backBtn} onClick={() => router.back()}>&larr; Volver</button>
+          <button className={styles.backBtn} onClick={() => router.push('/')}>Volver al inicio</button>
           <article className={styles.article}>
             <h1 className={styles.titulo}>{noticia.titulo}</h1>
             <p className={styles.meta}>{noticia.fecha} | {noticia.categorias?.nombre || noticia.categoria} | 👁️ {vistas} vistas</p>
