@@ -100,6 +100,9 @@ function AdminPanel() {
   const quillRef = React.useRef(null);
   const quillInstanceRef = React.useRef(null); // Guardar instancia real de Quill
 
+  // Estado separado para el editor visual
+  const [visualContent, setVisualContent] = useState('');
+
   // ----------------------------- CARGA DE DATOS INICIALES -----------------------------
   // Al montar el componente, carga todas las entidades necesarias
   useEffect(() => {
@@ -359,6 +362,10 @@ function AdminPanel() {
     quill.root.addEventListener('click', handleImgClick);
     return () => quill.root.removeEventListener('click', handleImgClick);
   }, [form.contenido]);
+  // --- Sincronizar editor visual cuando cambia el textarea manual
+  useEffect(() => {
+    setVisualContent(form.contenido);
+  }, [form.contenido]);
   // --- Render ---
   if (!logged) {
     return (
@@ -444,8 +451,11 @@ function AdminPanel() {
                 <b>Editor visual (opcional):</b>
                 <ReactQuill
                   ref={quillRef}
-                  value={form.contenido}
-                  onChange={val => setForm(f => ({ ...f, contenido: val }))}
+                  value={visualContent}
+                  onChange={val => {
+                    setVisualContent(val);
+                    setForm(f => ({ ...f, contenido: val })); // Solo reemplaza el textarea cuando editas en el visual
+                  }}
                   theme="snow"
                   style={{height:250,marginBottom:8}}
                   modules={quillModules}
@@ -461,7 +471,7 @@ function AdminPanel() {
                   }}
                 />
                 <div style={{fontSize:'0.95em',color:'#888',marginBottom:8}}>
-                  Puedes copiar el HTML generado y pegarlo en el campo de abajo si lo deseas.
+                  Si editas aquí, el HTML generado reemplazará el campo manual. Si editas el HTML manual, lo verás reflejado aquí.
                 </div>
               </div>
               <div style={{flex:1,minWidth:0}}>
