@@ -98,6 +98,7 @@ function AdminPanel() {
 
   // Referencia para el editor visual
   const quillRef = React.useRef(null);
+  const quillInstanceRef = React.useRef(null); // Guardar instancia real de Quill
 
   // ----------------------------- CARGA DE DATOS INICIALES -----------------------------
   // Al montar el componente, carga todas las entidades necesarias
@@ -289,14 +290,12 @@ function AdminPanel() {
   }
   // --- Efecto para agregar menú de tamaño y alineación al hacer click en imagen
   useEffect(() => {
-    if (!quillRef.current) return;
-    const quill = quillRef.current.getEditor();
+    if (!quillInstanceRef.current) return;
+    const quill = quillInstanceRef.current;
     function handleImgClick(e) {
       if (e.target && e.target.tagName === 'IMG') {
         e.preventDefault();
-        // Remover menú anterior si existe
         document.querySelectorAll('.znsf-img-menu').forEach(m => m.remove());
-        // Crear menú simple
         const menu = document.createElement('div');
         menu.className = 'znsf-img-menu';
         menu.style.position = 'fixed';
@@ -316,25 +315,20 @@ function AdminPanel() {
         document.body.appendChild(menu);
         function removeMenu() { menu.remove(); document.removeEventListener('mousedown', removeMenu); }
         setTimeout(()=>document.addEventListener('mousedown', removeMenu), 100);
-        // Tamaño
         menu.querySelectorAll('button[data-size]').forEach(btn => {
           btn.onclick = ev => {
             ev.stopPropagation();
-            // Modificar el HTML de la imagen usando Quill
             const img = e.target;
             img.style.width = btn.dataset.size + '%';
-            // También actualiza el HTML en el editor
             const blot = quill.scroll.find(img);
             if (blot) blot.domNode.style.width = btn.dataset.size + '%';
             removeMenu();
           };
         });
-        // Alineación
         menu.querySelectorAll('button[data-align]').forEach(btn => {
           btn.onclick = ev => {
             ev.stopPropagation();
             const img = e.target;
-            // Quitar alineación previa
             img.style.display = '';
             img.style.margin = '';
             img.style.float = '';
@@ -351,7 +345,6 @@ function AdminPanel() {
               img.style.float = 'right';
               img.style.margin = '0 0 1em 1em';
             }
-            // Actualiza el HTML en el editor
             const blot = quill.scroll.find(img);
             if (blot) {
               blot.domNode.style.display = img.style.display;
@@ -466,6 +459,15 @@ function AdminPanel() {
                 style={{height:250,marginBottom:8}}
                 modules={quillModules}
                 formats={quillFormats}
+                onChangeSelection={(_range, _source, quill) => {
+                  if (quill) quillInstanceRef.current = quill;
+                }}
+                onFocus={(_range, _source, quill) => {
+                  if (quill) quillInstanceRef.current = quill;
+                }}
+                onBlur={(_range, _source, quill) => {
+                  if (quill) quillInstanceRef.current = quill;
+                }}
               />
             )}
             <button type="button" onClick={()=>setShowPreview(p=>!p)} style={{marginBottom:8}}>
