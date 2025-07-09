@@ -287,33 +287,77 @@ function AdminPanel() {
     setNombre('');
     setPassword('');
   }
-  // --- Efecto para agregar menú de tamaño al hacer click en imagen
+  // --- Efecto para agregar menú de tamaño y alineación al hacer click en imagen
   useEffect(() => {
     if (!quillRef.current) return;
     const quill = quillRef.current.getEditor();
     function handleImgClick(e) {
       if (e.target && e.target.tagName === 'IMG') {
         e.preventDefault();
+        // Remover menú anterior si existe
+        document.querySelectorAll('.znsf-img-menu').forEach(m => m.remove());
         // Crear menú simple
         const menu = document.createElement('div');
+        menu.className = 'znsf-img-menu';
         menu.style.position = 'fixed';
         menu.style.top = e.clientY + 'px';
         menu.style.left = e.clientX + 'px';
         menu.style.background = '#fff';
         menu.style.border = '1px solid #ccc';
-        menu.style.padding = '6px 10px';
+        menu.style.padding = '8px 12px';
         menu.style.zIndex = 9999;
         menu.style.boxShadow = '0 2px 8px #0002';
-        menu.style.borderRadius = '6px';
-        menu.innerHTML = '<b>Tamaño imagen:</b><br>' +
-          [100,75,50,25].map(p=>`<button data-size="${p}" style="margin:2px 4px;">${p}%</button>`).join('');
+        menu.style.borderRadius = '7px';
+        menu.style.fontSize = '1em';
+        menu.innerHTML =
+          '<b>Tamaño:</b> ' + [100,75,50,25].map(p=>`<button data-size="${p}" style="margin:2px 4px;">${p}%</button>`).join('') +
+          '<br><b>Alinear:</b> ' +
+          ['left','center','right'].map(al=>`<button data-align="${al}" style="margin:2px 4px;">${al[0].toUpperCase()+al.slice(1)}</button>`).join('');
         document.body.appendChild(menu);
         function removeMenu() { menu.remove(); document.removeEventListener('mousedown', removeMenu); }
         setTimeout(()=>document.addEventListener('mousedown', removeMenu), 100);
-        menu.querySelectorAll('button').forEach(btn => {
+        // Tamaño
+        menu.querySelectorAll('button[data-size]').forEach(btn => {
           btn.onclick = ev => {
             ev.stopPropagation();
-            e.target.style.width = btn.dataset.size + '%';
+            // Modificar el HTML de la imagen usando Quill
+            const img = e.target;
+            img.style.width = btn.dataset.size + '%';
+            // También actualiza el HTML en el editor
+            const blot = quill.scroll.find(img);
+            if (blot) blot.domNode.style.width = btn.dataset.size + '%';
+            removeMenu();
+          };
+        });
+        // Alineación
+        menu.querySelectorAll('button[data-align]').forEach(btn => {
+          btn.onclick = ev => {
+            ev.stopPropagation();
+            const img = e.target;
+            // Quitar alineación previa
+            img.style.display = '';
+            img.style.margin = '';
+            img.style.float = '';
+            if (btn.dataset.align === 'center') {
+              img.style.display = 'block';
+              img.style.margin = '0 auto';
+              img.style.float = '';
+            } else if (btn.dataset.align === 'left') {
+              img.style.display = 'inline';
+              img.style.float = 'left';
+              img.style.margin = '0 1em 1em 0';
+            } else if (btn.dataset.align === 'right') {
+              img.style.display = 'inline';
+              img.style.float = 'right';
+              img.style.margin = '0 0 1em 1em';
+            }
+            // Actualiza el HTML en el editor
+            const blot = quill.scroll.find(img);
+            if (blot) {
+              blot.domNode.style.display = img.style.display;
+              blot.domNode.style.margin = img.style.margin;
+              blot.domNode.style.float = img.style.float;
+            }
             removeMenu();
           };
         });
