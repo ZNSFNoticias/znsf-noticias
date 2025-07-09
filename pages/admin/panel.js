@@ -445,7 +445,7 @@ function AdminPanel() {
                 <ReactQuill
                   ref={quillRef}
                   value={form.contenido}
-                  onChange={val => {/* Solo actualiza el visual, no el textarea principal */}}
+                  onChange={val => setForm(f => ({ ...f, contenido: val }))}
                   theme="snow"
                   style={{height:250,marginBottom:8}}
                   modules={quillModules}
