@@ -472,13 +472,13 @@ function AdminPanel() {
                   Si quieres ver cómo queda un bloque HTML, pégalo aquí y edítalo visualmente.<br/>
                   <b>Este editor no afecta el contenido de la noticia.</b>
                 </div>
-                <b>HTML generado por el editor visual:</b>
+                <b>HTML generado por el editor visual (editable, para previsualizar en el editor visual):</b>
                 <textarea
                   value={visualContent}
-                  readOnly
+                  onChange={e => setVisualContent(e.target.value)}
                   rows={12}
                   style={{width:'100%',fontFamily:'monospace',marginBottom:8,background:'#f7f7f7'}}
-                  placeholder="Aquí verás el HTML generado por el editor visual. Puedes copiarlo si lo necesitas."
+                  placeholder="Aquí puedes pegar cualquier HTML para verlo en el editor visual."
                 />
               </div>
               <div style={{flex:1,minWidth:0}}>
