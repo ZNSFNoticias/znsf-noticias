@@ -290,7 +290,7 @@ function AdminPanel() {
   }
   // --- Efecto para agregar menú de tamaño y alineación al hacer click en imagen
   useEffect(() => {
-    if (!quillInstanceRef.current) return;
+    if (!quillInstanceRef.current || !quillInstanceRef.current.root) return;
     const quill = quillInstanceRef.current;
     function handleImgClick(e) {
       if (e.target && e.target.tagName === 'IMG') {
@@ -358,7 +358,7 @@ function AdminPanel() {
     }
     quill.root.addEventListener('click', handleImgClick);
     return () => quill.root.removeEventListener('click', handleImgClick);
-  }, [modoHtml]);
+  }, [form.contenido]);
   // --- Render ---
   if (!logged) {
     return (
@@ -437,39 +437,44 @@ function AdminPanel() {
               <input name="vistas" type="number" value={form.vistas} onChange={handleFormChange} style={{width:'100%',marginBottom:8}} />
             </label><br/>
             <label>Contenido de la noticia:<br/>
-            {/* El botón de alternar modo se mueve fuera del label para evitar bugs de foco/click */}
+            {/* Ahora ambos editores están siempre visibles y separados. El textarea es el campo principal para guardar. */}
             </label>
-            <button type="button" onClick={()=>setModoHtml(m=>!m)} style={{margin:'8px 0'}}>
-              {modoHtml ? 'Usar editor visual' : 'Editar HTML manualmente'}
-            </button>
-            {modoHtml ? (
-              <textarea
-                value={form.contenido}
-                onChange={e => setForm(f => ({ ...f, contenido: e.target.value }))}
-                rows={12}
-                style={{width:'100%',fontFamily:'monospace',marginBottom:8}}
-                placeholder="Pega aquí HTML avanzado si lo deseas (carruseles, galerías, scripts, etc.)"
-              />
-            ) : (
-              <ReactQuill
-                ref={quillRef}
-                value={form.contenido}
-                onChange={val => setForm(f => ({ ...f, contenido: val }))}
-                theme="snow"
-                style={{height:250,marginBottom:8}}
-                modules={quillModules}
-                formats={quillFormats}
-                onChangeSelection={(_range, _source, quill) => {
-                  if (quill) quillInstanceRef.current = quill;
-                }}
-                onFocus={(_range, _source, quill) => {
-                  if (quill) quillInstanceRef.current = quill;
-                }}
-                onBlur={(_range, _source, quill) => {
-                  if (quill) quillInstanceRef.current = quill;
-                }}
-              />
-            )}
+            <div style={{display:'flex',gap:16,alignItems:'flex-start',marginBottom:8}}>
+              <div style={{flex:1,minWidth:0}}>
+                <b>Editor visual (opcional):</b>
+                <ReactQuill
+                  ref={quillRef}
+                  value={form.contenido}
+                  onChange={val => {/* Solo actualiza el visual, no el textarea principal */}}
+                  theme="snow"
+                  style={{height:250,marginBottom:8}}
+                  modules={quillModules}
+                  formats={quillFormats}
+                  onChangeSelection={(_range, _source, quill) => {
+                    if (quill) quillInstanceRef.current = quill;
+                  }}
+                  onFocus={(_range, _source, quill) => {
+                    if (quill) quillInstanceRef.current = quill;
+                  }}
+                  onBlur={(_range, _source, quill) => {
+                    if (quill) quillInstanceRef.current = quill;
+                  }}
+                />
+                <div style={{fontSize:'0.95em',color:'#888',marginBottom:8}}>
+                  Puedes copiar el HTML generado y pegarlo en el campo de abajo si lo deseas.
+                </div>
+              </div>
+              <div style={{flex:1,minWidth:0}}>
+                <b>HTML manual (siempre editable y es el que se guarda):</b>
+                <textarea
+                  value={form.contenido}
+                  onChange={e => setForm(f => ({ ...f, contenido: e.target.value }))}
+                  rows={12}
+                  style={{width:'100%',fontFamily:'monospace',marginBottom:8}}
+                  placeholder="Pega aquí HTML avanzado si lo deseas (carruseles, galerías, scripts, etc.)"
+                />
+              </div>
+            </div>
             <button type="button" onClick={()=>setShowPreview(p=>!p)} style={{marginBottom:8}}>
               {showPreview ? 'Ocultar vista previa' : 'Ver vista previa'}
             </button>
