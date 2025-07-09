@@ -18,7 +18,7 @@
 // - Para internacionalización, reemplaza los textos fijos por variables o recursos.
 // -----------------------------------------------------------------------------
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import withAdminAuth from '../../components/withAdminAuth';
 import dynamic from 'next/dynamic';
