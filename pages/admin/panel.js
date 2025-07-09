@@ -100,7 +100,7 @@ function AdminPanel() {
   const quillRef = React.useRef(null);
   const quillInstanceRef = React.useRef(null); // Guardar instancia real de Quill
 
-  // Estado separado para el editor visual
+  // Estado separado para el editor visual (solo herramienta de apoyo)
   const [visualContent, setVisualContent] = useState('');
 
   // ----------------------------- CARGA DE DATOS INICIALES -----------------------------
@@ -444,18 +444,15 @@ function AdminPanel() {
               <input name="vistas" type="number" value={form.vistas} onChange={handleFormChange} style={{width:'100%',marginBottom:8}} />
             </label><br/>
             <label>Contenido de la noticia:<br/>
-            {/* Ahora ambos editores están siempre visibles y separados. El textarea es el campo principal para guardar. */}
+            {/* El textarea HTML central es el único campo editable y el que se guarda. El editor visual y el textarea secundario son solo herramientas de apoyo, sin conexión automática. */}
             </label>
             <div style={{display:'flex',gap:16,alignItems:'flex-start',marginBottom:8}}>
               <div style={{flex:1,minWidth:0}}>
-                <b>Editor visual (opcional):</b>
+                <b>Editor visual (solo herramienta de apoyo):</b>
                 <ReactQuill
                   ref={quillRef}
                   value={visualContent}
-                  onChange={val => {
-                    setVisualContent(val);
-                    setForm(f => ({ ...f, contenido: val })); // Solo reemplaza el textarea cuando editas en el visual
-                  }}
+                  onChange={val => setVisualContent(val)}
                   theme="snow"
                   style={{height:250,marginBottom:8}}
                   modules={quillModules}
@@ -471,11 +468,21 @@ function AdminPanel() {
                   }}
                 />
                 <div style={{fontSize:'0.95em',color:'#888',marginBottom:8}}>
-                  Si editas aquí, el HTML generado reemplazará el campo manual. Si editas el HTML manual, lo verás reflejado aquí.
+                  Si quieres ver el HTML generado por el editor visual, cópialo desde aquí abajo.<br/>
+                  Si quieres ver cómo queda un bloque HTML, pégalo aquí y edítalo visualmente.<br/>
+                  <b>Este editor no afecta el contenido de la noticia.</b>
                 </div>
+                <b>HTML generado por el editor visual:</b>
+                <textarea
+                  value={visualContent}
+                  readOnly
+                  rows={12}
+                  style={{width:'100%',fontFamily:'monospace',marginBottom:8,background:'#f7f7f7'}}
+                  placeholder="Aquí verás el HTML generado por el editor visual. Puedes copiarlo si lo necesitas."
+                />
               </div>
               <div style={{flex:1,minWidth:0}}>
-                <b>HTML manual (siempre editable y es el que se guarda):</b>
+                <b>HTML manual (central, siempre editable y es el que se guarda):</b>
                 <textarea
                   value={form.contenido}
                   onChange={e => setForm(f => ({ ...f, contenido: e.target.value }))}
