@@ -49,6 +49,7 @@ export default function Sidebar() {
         <li><a href="https://x.com/znsfnoticias" target="_blank" rel="noopener noreferrer">Twitter (X)</a></li>
         <li><a href="https://www.youtube.com/@ZNSFNoticias" target="_blank" rel="noopener noreferrer">YouTube</a></li>
         <li><a href="https://www.tiktok.com/@znsfnoticias" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+        <li><a href="https://www.facebook.com/znsfnoticias" target="_blank" rel="noopener noreferrer">facebook</a></li>
       </ul>
       {/* Noticias más vistas (por likes) */}
       <h2 className={styles.titulo}>Noticias más vistas</h2>
