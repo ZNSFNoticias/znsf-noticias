@@ -1,4 +1,10 @@
 {
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.3",
     "crypto-js": "^4.2.0",
