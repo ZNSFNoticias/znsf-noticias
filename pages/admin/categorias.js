@@ -19,8 +19,11 @@ function AdminCategorias() {
   async function handleAdd(e) {
     e.preventDefault();
     if (!nueva.trim()) return;
-    const { error } = await supabase.from('categorias').insert({ nombre: nueva.trim() });
-    if (error) setError('Error al crear categoría');
+    // Obtener el próximo ID
+    const { data: maxId } = await supabase.from('categorias').select('id').order('id', { ascending: false }).limit(1);
+    const nextId = maxId && maxId.length > 0 ? maxId[0].id + 1 : 1;
+    const { error } = await supabase.from('categorias').insert({ id: nextId, nombre: nueva.trim() });
+    if (error) setError('Error al crear categoría: ' + error.message);
     else {
       setNueva('');
       setError(null);
