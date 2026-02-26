@@ -217,14 +217,22 @@ function AdminPanel() {
     if (form.autor_id) noticia.autor_id = +form.autor_id;
     if (form.editor_id) noticia.editor_id = +form.editor_id;
     if (noticia_id) {
-      await supabase.from('noticias').update(noticia).eq('id', noticia_id);
+      const { error: updateError } = await supabase.from('noticias').update(noticia).eq('id', noticia_id);
+      if (updateError) {
+        setError('Error al actualizar noticia: ' + updateError.message);
+        return;
+      }
       await supabase.from('noticia_media').delete().eq('noticia_id', noticia_id);
     } else {
       // Obtener el próximo ID
       const { data: maxId } = await supabase.from('noticias').select('id').order('id', { ascending: false }).limit(1);
       const nextId = maxId && maxId.length > 0 ? maxId[0].id + 1 : 1;
       noticia.id = nextId;
-      const { data } = await supabase.from('noticias').insert(noticia).select('id').single();
+      const { data, error: insertError } = await supabase.from('noticias').insert(noticia).select('id').single();
+      if (insertError) {
+        setError('Error al crear noticia: ' + insertError.message);
+        return;
+      }
       noticia_id = data?.id;
     }
     // Guardar medias
@@ -236,7 +244,13 @@ function AdminPanel() {
         orden: +m.orden || i + 1,
         descripcion: m.descripcion || null
       }));
-      if (mediasToSave.length) await supabase.from('noticia_media').insert(mediasToSave);
+      if (mediasToSave.length) {
+        const { error: mediaError } = await supabase.from('noticia_media').insert(mediasToSave);
+        if (mediaError) {
+          setError('Error al guardar medias: ' + mediaError.message);
+          return;
+        }
+      }
     }
     setMsg('Noticia guardada');
     fetchNoticias();
