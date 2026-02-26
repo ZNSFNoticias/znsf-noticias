@@ -220,6 +220,10 @@ function AdminPanel() {
       await supabase.from('noticias').update(noticia).eq('id', noticia_id);
       await supabase.from('noticia_media').delete().eq('noticia_id', noticia_id);
     } else {
+      // Obtener el próximo ID
+      const { data: maxId } = await supabase.from('noticias').select('id').order('id', { ascending: false }).limit(1);
+      const nextId = maxId && maxId.length > 0 ? maxId[0].id + 1 : 1;
+      noticia.id = nextId;
       const { data } = await supabase.from('noticias').insert(noticia).select('id').single();
       noticia_id = data?.id;
     }
