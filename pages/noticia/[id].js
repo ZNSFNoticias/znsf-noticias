@@ -89,9 +89,17 @@ export default function NoticiaDetalle() {
     e.preventDefault();
     if (!comentario.trim()) return;
     setComentLoading(true);
-    await supabase
+    // Obtener el próximo ID
+    const { data: maxId } = await supabase.from('comentarios').select('id').order('id', { ascending: false }).limit(1);
+    const nextId = maxId && maxId.length > 0 ? maxId[0].id + 1 : 1;
+    const { error } = await supabase
       .from('comentarios')
-      .insert({ noticia_id: id, autor: autor || 'Anónimo', texto: comentario });
+      .insert({ id: nextId, noticia_id: id, autor: autor || 'Anónimo', texto: comentario });
+    if (error) {
+      alert('Error al enviar comentario: ' + error.message);
+      setComentLoading(false);
+      return;
+    }
     setComentario('');
     setAutor('');
     setComentLoading(false);
