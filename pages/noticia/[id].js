@@ -27,35 +27,53 @@ export default function NoticiaDetalle() {
     if (!id) return;
     async function fetchNoticia() {
       setLoading(true);
-      // Sumar +1 a vistas usando función RPC
-      await supabase.rpc('incrementar_vista', { noticia_id: id });
+      // sumar +1 a vistas: intentar RPC (si existe) y también hacer un update por si falla
+      try {
+        const parsedId = parseInt(id, 10);
+        const { error: rpcError } = await supabase.rpc('incrementar_vista', { noticia_id: parsedId });
+        if (rpcError) {
+          console.warn('RPC incrementar_vista no disponible o falló:', rpcError.message);
+          // intentar actualizar con el método built-in de supabase (increment)
+          await supabase
+            .from('noticias')
+            .update({})
+            .eq('id', parsedId)
+            .increment('vistas', 1);
+        }
+      } catch (e) {
+        console.error('Error incrementando vistas:', e);
+      }
       // Obtener noticia actualizada con join a categorias
       const { data, error } = await supabase
         .from('noticias')
         .select('*, categorias(nombre)')
         .eq('id', id)
         .single();
-      if (error) setError('No se encontró la noticia');
-      else {
+      if (error) {
+        setError('No se encontró la noticia');
+      } else {
         setNoticia(data);
         setLikes(data.likes || 0);
-        setVistas(data.vistas || 0);
+        // siempre convertir a número para evitar strings que bloquean la actualización
+        setVistas(data.vistas != null ? Number(data.vistas) : 0);
       }
       setLoading(false);
     }
     async function fetchComentarios() {
+      const parsedId = parseInt(id, 10);
       const { data } = await supabase
         .from('comentarios')
         .select('*')
-        .eq('noticia_id', id)
+        .eq('noticia_id', parsedId)
         .order('fecha', { ascending: false });
       setComentarios(data || []);
     }
     async function fetchMedia() {
+      const parsedId = parseInt(id, 10);
       const { data } = await supabase
         .from('noticia_media')
         .select('*')
-        .eq('noticia_id', id)
+        .eq('noticia_id', parsedId)
         .order('orden', { ascending: true });
       setMedia(data || []);
     }
@@ -79,10 +97,11 @@ export default function NoticiaDetalle() {
     if (typeof window !== 'undefined') {
       localStorage.setItem(`like_noticia_${id}`, '1');
     }
+    const parsedId = parseInt(id, 10);
     await supabase
       .from('noticias')
       .update({ likes: likes + 1 })
-      .eq('id', id);
+      .eq('id', parsedId);
   };
 
   const handleComentario = async (e) => {
@@ -92,9 +111,10 @@ export default function NoticiaDetalle() {
     // Obtener el próximo ID
     const { data: maxId } = await supabase.from('comentarios').select('id').order('id', { ascending: false }).limit(1);
     const nextId = maxId && maxId.length > 0 ? maxId[0].id + 1 : 1;
+    const parsedId = parseInt(id, 10);
     const { error } = await supabase
       .from('comentarios')
-      .insert({ id: nextId, noticia_id: id, autor: autor || 'Anónimo', texto: comentario });
+      .insert({ id: nextId, noticia_id: parsedId, autor: autor || 'Anónimo', texto: comentario });
     if (error) {
       alert('Error al enviar comentario: ' + error.message);
       setComentLoading(false);

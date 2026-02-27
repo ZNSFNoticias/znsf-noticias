@@ -14,7 +14,7 @@ import styles from '../styles/NoticiaCard.module.css';
 export default function NoticiaCard({ noticia }) {
   // Estado para cantidad de comentarios y vistas en tiempo real
   const [comentCount, setComentCount] = useState(0);
-  const [vistas, setVistas] = useState(noticia.vistas || 0);
+  const [vistas, setVistas] = useState(noticia.vistas != null ? Number(noticia.vistas) : 0);
 
   // Al montar, consulta cantidad de comentarios y vistas, y actualiza cada 5s
   useEffect(() => {
@@ -26,12 +26,23 @@ export default function NoticiaCard({ noticia }) {
       setComentCount(count || 0);
     }
     async function fetchVistas() {
-      const { data } = await supabase
-        .from('noticias')
-        .select('vistas')
-        .eq('id', noticia.id)
-        .single();
-      if (data && typeof data.vistas === 'number') setVistas(data.vistas);
+      try {
+        const { data, error } = await supabase
+          .from('noticias')
+          .select('vistas')
+          .eq('id', noticia.id)
+          .single();
+        if (error) {
+          console.error('Error trayendo vistas en NoticiaCard', error.message);
+          return;
+        }
+        if (data && data.vistas != null) {
+          // supabase a veces devuelve bigint/num como string
+          setVistas(Number(data.vistas));
+        }
+      } catch (e) {
+        console.error('fetchVistas fallo:', e);
+      }
     }
     fetchCount();
     fetchVistas();
