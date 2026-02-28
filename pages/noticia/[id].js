@@ -47,9 +47,8 @@ export default function NoticiaDetalle() {
         try {
           const { data: incData, error: incError } = await supabase
             .from('noticias')
-            .update({})
-            .eq('id', parsedId)
-            .increment('vistas', 1);
+            .update({ vistas: supabase.literal('coalesce(vistas,0) + 1') })
+            .eq('id', parsedId);
           if (incError) {
             console.error('Error en fallback de incremento de vistas:', incError.message);
           } else {
