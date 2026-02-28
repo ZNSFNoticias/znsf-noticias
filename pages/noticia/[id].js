@@ -58,7 +58,7 @@ export default function NoticiaDetalle() {
       const { data, error } = await supabase
         .from('noticias')
         .select('*, categorias(nombre)')
-        .eq('id', id)
+        .eq('id', parsedId)
         .single();
       if (error) {
         setError('No se encontró la noticia');
