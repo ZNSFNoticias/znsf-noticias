@@ -45,11 +45,17 @@ export default function NoticiaDetalle() {
       }
       if (!incremented) {
         try {
-          await supabase
+          const { data: incData, error: incError } = await supabase
             .from('noticias')
             .update({})
             .eq('id', parsedId)
             .increment('vistas', 1);
+          if (incError) {
+            console.error('Error en fallback de incremento de vistas:', incError.message);
+          } else {
+            incremented = true;
+            console.log('Incremento de vistas realizado en fallback, data:', incData);
+          }
         } catch (e) {
           console.error('Fallback de incremento de vistas falló también:', e);
         }
