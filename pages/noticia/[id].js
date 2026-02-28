@@ -27,21 +27,32 @@ export default function NoticiaDetalle() {
     if (!id) return;
     async function fetchNoticia() {
       setLoading(true);
-      // sumar +1 a vistas: intentar RPC (si existe) y también hacer un update por si falla
+      // sumar +1 a vistas: intentar RPC (si existe) y siempre tener respaldo
+      const parsedId = parseInt(id, 10);
+      let incremented = false;
       try {
-        const parsedId = parseInt(id, 10);
-        const { error: rpcError } = await supabase.rpc('incrementar_vista', { noticia_id: parsedId });
+        const { data, error: rpcError } = await supabase.rpc('incrementar_vista', { noticia_id: parsedId });
         if (rpcError) {
+          // si la llamada devuelve error, vamos al fallback
           console.warn('RPC incrementar_vista no disponible o falló:', rpcError.message);
-          // intentar actualizar con el método built-in de supabase (increment)
+        } else {
+          // en caso de que la RPC exista y no devuelva error, consideramos el incremento hecho
+          incremented = true;
+        }
+      } catch (e) {
+        // la RPC no existe o hubo otro fallo (por ejemplo permisos o SQL mal escrito)
+        console.warn('RPC incrementar_vista lanzó excepción, usaremos fallback:', e.message || e);
+      }
+      if (!incremented) {
+        try {
           await supabase
             .from('noticias')
             .update({})
             .eq('id', parsedId)
             .increment('vistas', 1);
+        } catch (e) {
+          console.error('Fallback de incremento de vistas falló también:', e);
         }
-      } catch (e) {
-        console.error('Error incrementando vistas:', e);
       }
       // Obtener noticia actualizada con join a categorias
       const { data, error } = await supabase
