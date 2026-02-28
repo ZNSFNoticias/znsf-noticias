@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Head from 'next/head';
 import { supabase } from '../../lib/supabaseClient';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -179,6 +180,24 @@ export default function NoticiaDetalle() {
         <div className={styles.rightCol}>
           <button className={styles.backBtn} onClick={() => router.push('/')}>Volver al inicio</button>
           <article className={styles.article}>
+            {/* social meta tags for this specific news */}
+            <Head>
+              <title>{noticia.titulo} | ZNSF Noticias</title>
+              <meta name="description" content={(noticia.resumen || '').replace(/<[^>]+>/g, '').slice(0,150)} />
+              <meta property="og:type" content="article" />
+              <meta property="og:title" content={noticia.titulo} />
+              <meta property="og:description" content={(noticia.resumen || '').replace(/<[^>]+>/g, '').slice(0,150)} />
+              <meta property="og:url" content={`https://znsf-noticias.vercel.app/noticia/${noticia.id}`} />
+              {portada && (
+                <meta property="og:image" content={portada.url} />
+              )}
+              <meta name="twitter:card" content="summary_large_image" />
+              <meta name="twitter:title" content={noticia.titulo} />
+              <meta name="twitter:description" content={(noticia.resumen || '').replace(/<[^>]+>/g, '').slice(0,150)} />
+              {portada && (
+                <meta name="twitter:image" content={portada.url} />
+              )}
+            </Head>
             <h1 className={styles.titulo}>{noticia.titulo}</h1>
             <p className={styles.meta}>{noticia.fecha} | {noticia.categorias?.nombre || noticia.categoria} | 👁️ {vistas} vistas</p>
             {/* Portada */}
