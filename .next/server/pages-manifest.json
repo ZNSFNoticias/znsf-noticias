@@ -1,7 +1,18 @@
 {
   "/_app": "pages/_app.js",
+  "/admin/comentarios": "pages/admin/comentarios.html",
+  "/admin/categorias": "pages/admin/categorias.html",
+  "/admin/editar-noticia/[id]": "pages/admin/editar-noticia/[id].html",
+  "/admin": "pages/admin.html",
+  "/admin/login": "pages/admin/login.html",
+  "/admin/noticias": "pages/admin/noticias.html",
+  "/admin/nueva-noticia": "pages/admin/nueva-noticia.html",
+  "/admin/panel": "pages/admin/panel.html",
+  "/categoria/[categoria]": "pages/categoria/[categoria].html",
+  "/": "pages/index.html",
+  "/noticia/[id]": "pages/noticia/[id].html",
   "/_error": "pages/_error.js",
+  "/admin/panel-local": "pages/admin/panel-local.html",
   "/_document": "pages/_document.js",
-  "/admin": "pages/admin.js",
-  "/admin/login": "pages/admin/login.js"
+  "/404": "pages/404.html"
 }

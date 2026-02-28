@@ -1,1 +1,120 @@
-{"version":3,"caseSensitive":false,"basePath":"","rewrites":{"beforeFiles":[],"afterFiles":[],"fallback":[]},"redirects":[{"source":"/:path+/","destination":"/:path+","permanent":true,"internal":true,"regex":"^(?:\\/((?:[^\\/]+?)(?:\\/(?:[^\\/]+?))*))\\/$"}],"headers":[]}
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/admin/editar-noticia/[id]",
+      "regex": "^/admin/editar\\-noticia/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/admin/editar\\-noticia/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/categoria/[categoria]",
+      "regex": "^/categoria/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcategoria": "nxtPcategoria"
+      },
+      "namedRegex": "^/categoria/(?<nxtPcategoria>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/noticia/[id]",
+      "regex": "^/noticia/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/noticia/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/admin",
+      "regex": "^/admin(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin(?:/)?$"
+    },
+    {
+      "page": "/admin/categorias",
+      "regex": "^/admin/categorias(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/categorias(?:/)?$"
+    },
+    {
+      "page": "/admin/comentarios",
+      "regex": "^/admin/comentarios(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/comentarios(?:/)?$"
+    },
+    {
+      "page": "/admin/login",
+      "regex": "^/admin/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/login(?:/)?$"
+    },
+    {
+      "page": "/admin/noticias",
+      "regex": "^/admin/noticias(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/noticias(?:/)?$"
+    },
+    {
+      "page": "/admin/nueva-noticia",
+      "regex": "^/admin/nueva\\-noticia(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/nueva\\-noticia(?:/)?$"
+    },
+    {
+      "page": "/admin/panel",
+      "regex": "^/admin/panel(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/panel(?:/)?$"
+    },
+    {
+      "page": "/admin/panel-local",
+      "regex": "^/admin/panel\\-local(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/panel\\-local(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
